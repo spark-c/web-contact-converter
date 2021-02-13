@@ -11,19 +11,50 @@
     <header>
       <div id='banner'>
         <div id='banner-decor'>
-
+          THIS IS WHERE THE BANNER SHALL BE ACROSS THE SCREEN
         </div>
       </div>
     </header>
 
-    <div id='instruction'>
-      Use this tool in order to create a spreadsheet from contact information.
-      There is a box somewhere on this page that you can paste lots of info into.
-      Once you do that, hit the continue button to generate a spreadsheet
-      that you will be able to download.
+    <div id='instructions-wrapper'>
+      <div id='instructions'>
+        Use this tool in order to create a spreadsheet from contact information.
+        There is a box somewhere on this page that you can paste lots of info into.
+        Once you do that, hit the continue button to generate a spreadsheet
+        that you will be able to download.
+      </div>
     </div>
-    <div id='input-box'></div>
-    <div id='generate'><button>Generate Sheet</button></div>
+
+    <div id='input-wrapper'>
+      <div id='textarea' contenteditable="true">This is placeholder text.</div>
+      <div id='input-button-wrapper'>
+        <div class='button-wrapper' id='compile-wrapper'><button id='compile-button' class=input-button name='compile'>Compile</button></div>
+        <div class='button-wrapper' id='generate-wrapper'><button id='generate-button' class=input-button name='generate'>Generate Sheet</button></div>
+      </div>
+    </div>
+
+    <div id="table-wrapper">
+      <div id="table-header" class='company'>
+        <div id='select-all-wrapper' class='table-field'><button id='select-all' class='table-button' name='select-all'>Select All</button></div>
+        <div class='table-field in-head'>Company</div>
+        <div class='table-field in-head'>Name</div>
+        <div class='table-field in-head'>Email</div>
+        <div class='table-field in-head'>Phone</div>
+        <div class='table-field in-head'>Address</div>
+        <div id='delete-wrapper' class='table-field'><button id='delete' class='table-button' name='delete'>Delete Selected</button></div>
+      </div>
+      <div id="compiled-companies" class='company'>
+        <div class='table-field checkbox'><input id='test' type='checkbox' name='selected' /></div>
+        <div class='table-field'>AmCorp</div>
+        <div class='table-field'>Joe Dude</div>
+        <div class='table-field'>jdude@amcorp.com</div>
+        <div class='table-field'>333-555-6256</div>
+        <div class='table-field'>6023 Amcorp Way Arugula, CA 95234</div>
+        <div class='table-field'></div>
+        <!-- append companies here with javascript -->
+      </div>
+    </div>
+
 
   </body>
 

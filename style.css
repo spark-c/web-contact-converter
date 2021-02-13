@@ -1,0 +1,107 @@
+body {
+  background-color: navy;
+  font-size: 1.2em;
+}
+
+#banner {
+  text-align: center;
+  font-size: 5vh;
+  height: 7vh;
+  background-color: black;
+  padding: 1vh;
+}
+
+#instructions-wrapper {
+  /* background-color: black; */
+  width: 70vw;
+  padding-left: 15vw;
+}
+
+#instructions {
+  text-align: center;
+  font-size: 1.2em;
+  background-color: black;
+  padding: 1vh;
+  /* width: 70vw;
+  padding-left: 15vw;
+  padding-top: 2vh; */
+}
+
+#input-wrapper {
+  margin-left: 25vw;
+  display: flex;
+  flex-direction: column;
+  height: 20em;
+  margin-top: 5vh;
+
+}
+
+#textarea {
+  color: black;
+  background-color: #BCAC80;
+  font-size: .9em;
+  height: 20em;
+  width: 50vw;
+  flex
+}
+
+#input-button-wrapper {
+  /* background-color: green; */
+  display: flex;
+  flex-direction: row;
+  width: 50vw;
+  justify-content: space-between;
+}
+
+.input-button {
+  height: 3em;
+  width: 7em;
+  margin: 1vh 2vw;
+}
+
+#table-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+  background-color: green;
+  margin-left: 5vw;
+  margin-top: 5vh;
+}
+
+#select-all-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.company {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.table-field {
+  background-color: red;
+  width: 11vw;
+  font-size: .7em;
+  padding: 2px 0px;
+  white-space: nowrap;
+}
+
+.in-head {
+  font-size: 1em;
+}
+
+.checkbox {
+  display: flex;
+  justify-content: center;
+}
+
+#test {
+  background-color: yellow;
+  padding-right: 33%;
+}
+
+#delete-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
