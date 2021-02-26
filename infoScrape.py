@@ -20,12 +20,12 @@ def infoScrape(): # gonna use this function for each info block
 
     i = 1
     for block in range(len(sourceDoc)):
-        
+
         Company = 'Company %i' % i
         print(Company)
         collectedInfo = {Company: {   # list for temp storage of found data
                             'name':None}}
-        
+
         logging.debug('BLOCK')
         logging.debug(block)
 
@@ -33,22 +33,22 @@ def infoScrape(): # gonna use this function for each info block
 
         logging.debug('WORKING')
         logging.debug(working)
-    
+
         rawData = working.splitlines()
 
         logging.debug('RAWDATA')
         logging.debug(pprint.pformat(rawData))
         logging.debug('...\n...\n')
-              
+
         #COMPANY
         if len(rawData) < 2: # Deletes empty lists
             del rawData
             continue
-        
+
         while rawData[0] == '': # Deletes beginning empty lines
             del rawData[0]
 
-        
+
         if dbaRegex.search(rawData[0]):         # 'dba' = 'doing business as', which needs removed.
             dbaMatch = dbaRegex.search(rawData[0])
             dbaResult = dbaMatch.group(2)
@@ -124,7 +124,7 @@ def infoScrape(): # gonna use this function for each info block
             logging.debug('\n')
 
             i += 1
-            
+
 
 def bigListDebugPrint(index = 'all'): # Default value for x is 0
     if index == 'all':
@@ -148,130 +148,130 @@ def bigListDebugPrint(index = 'all'): # Default value for x is 0
 
 
 
+def run():
+
+    #DEFINITIONS
+
+    # NAME
+    nameRegex = re.compile(r'''
+    (^[a-zA-Z.]+\s    # newline and firstname with space; can include title
+    [a-zA-Z.]+            # name
+    \s?[a-zA-Z. ]*$)      # room for an optional middle name, space, ends with newline character
+    ''', re.VERBOSE)
 
 
-#DEFINITIONS
+    # EMAIL
+    emailRegex = re.compile(r'([a-zA-Z0-9._+\-]+@[a-zA-Z0-9._+\-]+)')
 
 
-# NAME
-nameRegex = re.compile(r'''
-(^[a-zA-Z.]+\s    # newline and firstname with space; can include title
-[a-zA-Z.]+            # name
-\s?[a-zA-Z. ]*$)      # room for an optional middle name, space, ends with newline character
-''', re.VERBOSE)
+    # PHONE
+    phoneRegex = re.compile(r'''
+    (\(?\d{3}\)?\s?-?        # area code, with or without parens or dash or space
+    \d{3}\s?-?\s?                  # first three digits and dash or no dash
+    \d{4})                   # final four digits
+    ''', re.VERBOSE)
 
 
-# EMAIL
-emailRegex = re.compile(r'([a-zA-Z0-9._+\-]+@[a-zA-Z0-9._+\-]+)')
+    # ADDRESS
+    address1Regex = re.compile(r'''
+    (^\d+\s[a-zA-Z0-9.]+\s[a-zA-Z0-9 .]*)\s?
+    # 123 w broad street
+    ''', re.VERBOSE)
 
 
-# PHONE
-phoneRegex = re.compile(r'''
-(\(?\d{3}\)?\s?-?        # area code, with or without parens or dash or space
-\d{3}\s?-?\s?                  # first three digits and dash or no dash
-\d{4})                   # final four digits
-''', re.VERBOSE)
+    address2Regex = re.compile(r'''
+    ([a-zA-Z]+,?\s[a-zA-Z]+\s\d{5})
+    # columbus, OH 12345
+    ''', re.VERBOSE)
+
+    # CHECK FOR 'DBA' IN BUSINESS NAME
+    dbaRegex = re.compile(r'(.*\sdba\s)(.*)')
 
 
-# ADDRESS
-address1Regex = re.compile(r'''
-(^\d+\s[a-zA-Z0-9.]+\s[a-zA-Z0-9 .]*)\s?
-# 123 w broad street
-''', re.VERBOSE)
-
-
-address2Regex = re.compile(r'''
-([a-zA-Z]+,?\s[a-zA-Z]+\s\d{5})
-# columbus, OH 12345
-''', re.VERBOSE)
-
-# CHECK FOR 'DBA' IN BUSINESS NAME
-dbaRegex = re.compile(r'(.*\sdba\s)(.*)')
-
-
-bigDict = {} # this is the main directory
-
-
-
-# Break the whole document into a giant list of blocks
-
-sourceDoc = pyperclip.paste()
-
-sourceDoc = sourceDoc.split('\r\n\r\n')
-
-logging.debug('SOURCEDOC...\nSOURCEDOC...')
-logging.debug(pprint.pformat((sourceDoc)))
-
-# Now we proccess
-
-infoScrape()
-
-print('Compiling complete.\nCall "bigDict" for content.')
-
-
-#bigListDebugPrint()
-
-#########EXCEL CODE BELOW
-
-while True:
-    try:
-        desiredPath = input('Please enter desired path: ')
-        os.chdir(desiredPath)
-        break
-    except:
-        print('Invalid path.')
-        continue
-
-wb = openpyxl.Workbook()
-sheet = wb['Sheet']
-
-firstRow = {'A1': 'Company', 'B1' : 'Names', 'C1' : 'Emails', 'D1' : 'Phones', 'E1' : 'Address'}
-
-for item in firstRow:
-    sheet[item] = firstRow[item]
-
-rowIndex = 2 # begins at the row under the column titles
-i = 1
-for Company in bigDict:
-
-    working = 'Company %s' % i
-    contactsize = len(bigDict[working]['contacts'])     #determines how many rows
-    phonesize = len(bigDict[working]['phones'])         #are needed to display
-    emailsize = len(bigDict[working]['emails'])         #all of this company's info
-    rowsneeded = max(contactsize, phonesize, emailsize) 
-
-    sheet['A%s' % rowIndex] = bigDict[working]['name']
-
-    j = 0
-    for person in bigDict[working]['contacts']:
-        sheet['B%s' % str(rowIndex + j)] = bigDict[working]['contacts']['person %s' % str(j+1)]
-        j += 1
-
-    j = 0
-    for email in bigDict[working]['emails']:
-        sheet['C%s' % str(rowIndex + j)] = bigDict[working]['emails']['email %s' % str(j+1)]
-        j += 1
-
-    j = 0
-    for number in bigDict[working]['phones']:
-        sheet['D%s' % str(rowIndex + j)] = bigDict[working]['phones']['number %s' % str(j+1)]
-        j += 1
-
-    sheet['E%s' % str(rowIndex)] = bigDict[working]['address']
-
-    rowIndex = rowIndex + rowsneeded # moves "cursor" to next empty row
-    i += 1
+    bigDict = {} # this is the main directory
 
 
 
+    # Break the whole document into a giant list of blocks
+
+    sourceDoc = pyperclip.paste()
+
+    sourceDoc = sourceDoc.split('\r\n\r\n')
+
+    logging.debug('SOURCEDOC...\nSOURCEDOC...')
+    logging.debug(pprint.pformat((sourceDoc)))
+
+    # Now we proccess
+
+    infoScrape()
+
+    print('Compiling complete.\nCall "bigDict" for content.')
 
 
-while True:
-    try:
-        wb.save(input('Enter filename: ') + '.xlsx') #could implement code to check whether '.xlsx' is already included
-        break
-    except:
-        print('Could not save this name.')
-        continue
+    #bigListDebugPrint()
+
+    #########EXCEL CODE BELOW
+
+    while True:
+        try:
+            desiredPath = input('Please enter desired path: ')
+            os.chdir(desiredPath)
+            break
+        except:
+            print('Invalid path.')
+            continue
+
+    wb = openpyxl.Workbook()
+    sheet = wb['Sheet']
+
+    firstRow = {'A1': 'Company', 'B1' : 'Names', 'C1' : 'Emails', 'D1' : 'Phones', 'E1' : 'Address'}
+
+    for item in firstRow:
+        sheet[item] = firstRow[item]
+
+    rowIndex = 2 # begins at the row under the column titles
+    i = 1
+    for Company in bigDict:
+
+        working = 'Company %s' % i
+        contactsize = len(bigDict[working]['contacts'])     #determines how many rows
+        phonesize = len(bigDict[working]['phones'])         #are needed to display
+        emailsize = len(bigDict[working]['emails'])         #all of this company's info
+        rowsneeded = max(contactsize, phonesize, emailsize)
+
+        sheet['A%s' % rowIndex] = bigDict[working]['name']
+
+        j = 0
+        for person in bigDict[working]['contacts']:
+            sheet['B%s' % str(rowIndex + j)] = bigDict[working]['contacts']['person %s' % str(j+1)]
+            j += 1
+
+        j = 0
+        for email in bigDict[working]['emails']:
+            sheet['C%s' % str(rowIndex + j)] = bigDict[working]['emails']['email %s' % str(j+1)]
+            j += 1
+
+        j = 0
+        for number in bigDict[working]['phones']:
+            sheet['D%s' % str(rowIndex + j)] = bigDict[working]['phones']['number %s' % str(j+1)]
+            j += 1
+
+        sheet['E%s' % str(rowIndex)] = bigDict[working]['address']
+
+        rowIndex = rowIndex + rowsneeded # moves "cursor" to next empty row
+        i += 1
 
 
+
+
+
+    while True:
+        try:
+            wb.save(input('Enter filename: ') + '.xlsx') #could implement code to check whether '.xlsx' is already included
+            break
+        except:
+            print('Could not save this name.')
+            continue
+
+if __name__ == '__main__':
+    run()

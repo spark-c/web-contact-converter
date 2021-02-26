@@ -73,15 +73,22 @@ body {
   justify-content: center;
 }
 
-.company {
+.table-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.table-row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
 .table-field {
+
   background-color: red;
-  width: 11vw;
+  width: 12vw;
   font-size: .7em;
   padding: 2px 0px;
   white-space: nowrap;

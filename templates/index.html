@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+    <title>Contact Converter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/style.css') }}" />
+    <link rel="stylesheet" type='text/css' href="../static/stylesheets/style.css" />
+
+    <!-- here is the Fetch API script that will handle communicating with the backend -->
+    <script>
+      function replace_brs(with_tags) { // a contenteditable div uses <br> tags instead of \n, so we need to replace those
+        const regex = /<br>/;
+        let no_tags = with_tags.replace(regex, '\n');
+        return no_tags;
+      };
+
+      function send_request() {
+        let target = document.getElementById('textarea');
+        console.log(target.value); // $(target).html() is a jQuery method
+        let sendthis = {
+          message: replace_brs(target.value)
+        };
+        console.log(sendthis.message);
+
+        fetch(`${window.origin}/py_compile`, {
+          method: "POST",
+          credentials: "include",
+          body: JSON.stringify(sendthis),
+          cache: "no-cache",
+          headers: new Headers({
+            "content-type": "application/json"
+          })
+        });
+
+        function setAttributes(element, dict_of_attrs) { // adding multiple attrs at once to an element; takes a dict
+          for(var key in dict_of_attrs) {
+            element.setAttribute(key, dict_of_attrs[key])
+          }
+        }
+
+        function create_row(info) { // probably passing in a dict?
+          // takes company info and assembles it into a div/row
+          let newDiv = document.createElement('div')
+          newDiv.classList.add('table-row')
+        }
+
+        function create_fields(contact_dict) { // takes a dict of contact data and makes them into table fields
+          let selectField = document.createElement('div')
+          selectField.classList.add(['table-field', 'checkbox'])
+
+          let selectBox = document.createElement('input')
+          let attrs = {
+            'type': 'checkbox',
+            'name': 'selected'
+          }
+          setAttributes(selectBox, attrs)
+
+          // for piece of info in response[company], make an appropriate div
+
+        }
+
+      };
+
+    </script>
+  </head>
+
+  <body>
+    <header>
+      <div id='banner'>
+        <div id='banner-decor'>
+          THIS IS WHERE THE BANNER SHALL BE ACROSS THE SCREEN
+        </div>
+      </div>
+    </header>
+
+    <div id='instructions-wrapper'>
+      <div id='instructions'>
+        Use this tool in order to create a spreadsheet from contact information.
+        There is a box somewhere on this page that you can paste lots of info into.
+        Once you do that, hit the continue button to generate a spreadsheet
+        that you will be able to download.
+      </div>
+    </div>
+
+    <div id='input-wrapper'>
+      <textarea id='textarea'>This is placeholder text.</textarea>
+      <div id='input-button-wrapper'>
+        <div class='button-wrapper' id='compile-wrapper'><button id='compile-button' type='button' onclick='send_request()' class=input-button name='compile'>Compile</button></div>
+        <div class='button-wrapper' id='generate-wrapper'><button id='generate-button' type='button' onclick='js_generate()' class=input-button name='generate'>Generate Sheet</button></div>
+      </div>
+    </div>
+
+    <div id="table-wrapper">
+      <div id="table-header" class='table-section'>
+        <div class='table-row'>
+          <div id='select-all-wrapper' class='table-field'><button id='select-all' class='table-button' name='select-all'>Select All</button></div>
+          <div class='table-field in-head'>Company</div>
+          <div class='table-field in-head'>Name</div>
+          <div class='table-field in-head'>Email</div>
+          <div class='table-field in-head'>Phone</div>
+          <div class='table-field in-head'>Address</div>
+          <div id='delete-wrapper' class='table-field'><button id='delete' class='table-button' name='delete'>Delete Selected</button></div>
+        </div>
+      </div>
+      <div id="companies-wrapper" class='table-section'>
+        <div class='table-row'>
+          <div class='table-field checkbox'><input id='test' type='checkbox' name='selected' /></div>
+          <div class='table-field'>AmCorp</div>
+          <div class='table-field'>Joe Dude</div>
+          <div class='table-field'>jdude@amcorp.com</div>
+          <div class='table-field'>333-555-6256</div>
+          <div class='table-field'>6023 Amcorp Way Arugula, CA 95234</div>
+          <div class='table-field'></div>
+        </div>
+        <!-- append companies here with javascript -->
+      </div>
+    </div>
+
+
+  </body>
+
+</html>
