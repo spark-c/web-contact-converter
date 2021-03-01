@@ -1,7 +1,17 @@
 body {
   background-color: navy;
   font-size: 1.2em;
+  min-height: 100vh
 }
+
+#content {
+  min-height: 100vh;
+  padding-bottom: 20vh;
+}
+
+/* #footer {
+  padding-top: 200px;
+} */
 
 #banner {
   text-align: center;
@@ -42,7 +52,6 @@ body {
   font-size: .9em;
   height: 20em;
   width: 50vw;
-  flex
 }
 
 #input-button-wrapper {
@@ -66,6 +75,7 @@ body {
   background-color: green;
   margin-left: 5vw;
   margin-top: 5vh;
+  margin-bottom: 10vh;
 }
 
 #select-all-wrapper {
@@ -75,7 +85,7 @@ body {
 
 .table-section {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-around;
 }
 
@@ -86,7 +96,8 @@ body {
 }
 
 .table-field {
-
+  border-style: solid;
+  border-width: 2px;
   background-color: red;
   width: 12vw;
   font-size: .7em;
