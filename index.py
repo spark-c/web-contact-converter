@@ -9,6 +9,8 @@ app.secret_key = 'kidslinked'
 PERMANENT_SESSION_LIFETIME = datetime.timedelta(days=1)
 SESSION_COOKIE_SECURE = True
 
+UPLOAD_FOLDER = 'generated'
+
 # all_companies = []
 
 
@@ -39,8 +41,12 @@ def py_compile():
     return response
 
 @app.route('/py_generate', methods=['POST', 'GET'])
-def py_generate():
-    pass
+def py_generate(doc_title):
+    doc_title = doc_title
+    saved_location = kc.convert_to_wb(dest_path, session['all_companies'], doc_title)
+
+    return send_from_directory(directory=generated, filename=doc_title)
+
 
 @app.route('/py_delete', methods=['POST','GET'])
 def py_delete():

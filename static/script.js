@@ -141,5 +141,16 @@ function select_toggle() { // lazy solution to select-all button's onclick
 };
 
 
+function generate() {
+  let D = new Date()
+  var doc_title = window.prompt('Please enter the spreadsheet title:', `Conversion ${D.getMonth() + 1}-${D.getDate()}-${D.getFullYear()}`) // placeholder format (January 1 2021))
+  if (doc_title === null) {
+    alert('Generation cancelled.')
+    return
+  }
+  alert(doc_title)
+  
+}
+
 
   // for piece of info in response[company], make an appropriate div
