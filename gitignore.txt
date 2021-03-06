@@ -1,2 +1,3 @@
 startatom.bat
 instance/generated/*
+runFlask.bat
