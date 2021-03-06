@@ -16,7 +16,8 @@ app.config.update(
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE='Lax'
 )
-app.config['DL_DIRECTORY'] = 'C:\\Users\\Collin Sparks\\Desktop\\python\\web-contact-converter\\instance\\generated'
+print('path {}'.format(app.instance_path))
+app.config['DL_DIRECTORY'] = os.path.join(app.instance_path, 'generated')
 
 
 # all_companies = []
@@ -63,12 +64,12 @@ def py_generate():
     # doc_title = req['message']
     print('session: {} companies'.format(len(temp)))
     wb = kc.generate_wb(temp)
-    filepath = app.config['DL_DIRECTORY'] + '\\output.xlsx'
+    filepath = app.config['DL_DIRECTORY'] + 'output.xlsx'
     with open(filepath, 'wb') as temp:
         wb.save(temp)
         temp.seek(0)
 
-    response = send_file(app.config['DL_DIRECTORY'] + '\\output.xlsx',
+    response = send_file(app.config['DL_DIRECTORY'] + 'output.xlsx',
     mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     attachment_filename='output.xlsx',
     as_attachment=True
