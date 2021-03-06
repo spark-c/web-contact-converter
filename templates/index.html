@@ -6,7 +6,7 @@
     <title>Contact Converter</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/style.css') }}" />
     <link rel="stylesheet" type='text/css' href="../static/stylesheets/style.css" />
-    <script src='../static/script.js'></script>
+
   </head>
 
   <body>
@@ -26,12 +26,14 @@
           Once you do that, hit the continue button to generate a spreadsheet
           that you will be able to download.
         </div>
+        <button id='delete-all' type='button' >Delete All</button>
       </div>
+
 
       <div id='input-wrapper'>
         <textarea id='textarea'>This is placeholder text.</textarea>
         <div id='input-button-wrapper'>
-          <div class='button-wrapper' id='compile-wrapper'><button id='compile-button' type='button' onclick='send_request()' class=input-button name='compile'>Compile</button></div>
+          <div class='button-wrapper' id='compile-wrapper'><button id='compile-button' type='button' class=input-button name='compile'>Compile</button></div>
           <div class='button-wrapper' id='generate-wrapper'><button id='generate-button' type='button' onclick='generate()' class=input-button name='generate'>Generate Sheet</button></div>
         </div>
       </div>
@@ -65,5 +67,7 @@
     <!-- <footer><p id='footer'>Collin made this!</p></footer> -->
 
   </body>
+
+  <script src='../static/script.js'></script> <!-- main script -->
 
 </html>

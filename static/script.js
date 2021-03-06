@@ -7,14 +7,20 @@ function replace_brs(with_tags) { // a contenteditable div uses <br> tags instea
 };
 
 
-function send_request() {
-  let target = document.getElementById('textarea');
-  console.log(target.value);
-  let sendthis = {
-    message: replace_brs(target.value)
-  };
-
-  fetch(`${window.origin}/py_compile`, { // sending the request
+function send_request(destination) {
+  if (destination === 'py_compile') { // only takes from textarea if called from button
+    let target = document.getElementById('textarea');
+    console.log(target.value);
+    var sendthis = {
+      message: replace_brs(target.value)
+    }
+  } else {
+    var sendthis = {
+      message: 'dummy-value'
+    }
+  }
+  console.log(destination)
+  fetch(`${window.origin}/${destination}`, { // sending the request
     method: "POST",
     credentials: "include",
     body: JSON.stringify(sendthis),
@@ -142,15 +148,43 @@ function select_toggle() { // lazy solution to select-all button's onclick
 
 
 function generate() {
-  let D = new Date()
-  var doc_title = window.prompt('Please enter the spreadsheet title:', `Conversion ${D.getMonth() + 1}-${D.getDate()}-${D.getFullYear()}`) // placeholder format (January 1 2021))
-  if (doc_title === null) {
-    alert('Generation cancelled.')
-    return
-  }
-  alert(doc_title)
-  
+  // let D = new Date()
+  // var doc_title = window.prompt('Please enter the spreadsheet title:', `Conversion ${D.getMonth() + 1}-${D.getDate()}-${D.getFullYear()}`) // placeholder format (January 1 2021))
+  // if (doc_title === null) {
+  //   alert('Generation cancelled.')
+  //   return
+  // }
+  console.log('sending request')
+  fetch(`${window.origin}/py_generate`, { // sending the request
+    method: "GET",
+    credentials: "include",
+    // body:
+    cache: "no-cache",
+    headers: new Headers({
+      "content-type": "text/plain"
+    })
+  })
+  .then(function (response) {
+    console.log(response)
+  })
+
 }
 
+
+window.onload = (event) => { // appends existing data to table on page load
+  send_request('compile_from_session')
+  console.log('should have pinned')
+}
+
+var compileElement = document.querySelector('#compile-button') // adds listener for compile button
+compileElement.addEventListener('click', function() {
+  send_request('py_compile')
+})
+console.log(compileElement)
+
+var deleteallElement = document.querySelector('#delete-all')
+deleteallElement.addEventListener('click', function() {
+  send_request('delete_all')
+})
 
   // for piece of info in response[company], make an appropriate div
