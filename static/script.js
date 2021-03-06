@@ -1,4 +1,5 @@
-
+// Main js for the frontend of "web-contact-converter"
+// Collin Sparks, Feb 2021
 
 function replace_brs(with_tags) { // a contenteditable div uses <br> tags instead of \n, so we need to replace those
   const regex = /<br>/;
@@ -81,7 +82,6 @@ function create_fields(type, data='') { // takes a dict of contact data and make
 
     let selectBox = document.createElement('input') // the actual <input type='checkbox'>
     setAttributes(selectBox, {'type': 'checkbox', 'name': 'selected'})
-    selectField.checked = true // I want all new companies to default to being selected
     selectField.appendChild(selectBox)
     return selectField;
 
@@ -156,7 +156,7 @@ function generate() {
   // }
   console.log('sending request')
   fetch(`${window.origin}/py_generate`, { // sending the request
-    method: "GET",
+    method: "POST",
     credentials: "include",
     // body:
     cache: "no-cache",
@@ -164,10 +164,12 @@ function generate() {
       "content-type": "text/plain"
     })
   })
-  .then(function (response) {
-    console.log(response)
+  .then(response => response.blob())
+  .then(blob => URL.createObjectURL(blob))
+  .then(url => {
+    window.open(url, '_blank')
+    URL.revokeObjectURL(url)
   })
-
 }
 
 

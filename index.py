@@ -1,10 +1,11 @@
-from flask import Flask, request, render_template, jsonify, send_file, make_response, session, redirect, url_for
+# Flask code for the module "web-contact-converter", a web app used to generate spreadsheets from contact information
+# Collin Sparks, Feb 2021
+# Python 3
+from flask import Flask, request, render_template, jsonify, send_file, send_from_directory, make_response, session, redirect, url_for, abort
 import json
 from kidslinkedConverter import kidslinkedConverter as kc
 import datetime
-from tempfile import NamedTemporaryFile
 import os
-from io import BytesIO
 
 
 app = Flask(__name__)
@@ -15,9 +16,8 @@ app.config.update(
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE='Lax'
 )
+app.config['DL_DIRECTORY'] = 'C:\\Users\\Collin Sparks\\Desktop\\python\\web-contact-converter\\instance\\generated'
 
-
-UPLOAD_FOLDER = 'generated'
 
 # all_companies = []
 
@@ -29,7 +29,6 @@ def home():
             print(session['all_companies'])
             return render_template('index.html', session_data=True, total_companies=len(session['all_companies'])) # tell js to load session data to page
         else:
-            print(session['all_companies'])
             session['all_companies'] = []
             return render_template('index.html', session_data=False, total_companies=len(session['all_companies'])) # clean load of page
 
@@ -57,29 +56,28 @@ def py_compile():
     # return render_template('index.html')
     return response
 
-@app.route('/py_generate', methods=['GET'])
+@app.route('/py_generate', methods=['POST', 'GET'])
 def py_generate():
     temp = session['all_companies']
 
-
-
-    print(temp)
-    req = request.get_json()
     # doc_title = req['message']
-    print('session: {}'.format(temp))
+    print('session: {} companies'.format(len(temp)))
     wb = kc.generate_wb(temp)
-    filepath = app.instance_path + '\\generated\\output.xlsx'
+    filepath = app.config['DL_DIRECTORY'] + '\\output.xlsx'
     with open(filepath, 'wb') as temp:
         wb.save(temp)
         temp.seek(0)
 
-    # saved_location = kc.convert_to_wb(dest_path, session['all_companies'], doc_title)
-    # response = make_response(stream, 200)
-    # response.headers['content-type'] = 'application'
-    # mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    # direct_passthrough=True,
-    # )
-    return send_file(filepath, as_attachment=True, attachment_filename='output.xlsx')
+    response = send_file(app.config['DL_DIRECTORY'] + '\\output.xlsx',
+    mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    attachment_filename='output.xlsx',
+    as_attachment=True
+    )
+    try:
+        print('sending... ')
+        return response
+    except FileNotFoundError:
+        abort(404)
 
 
 @app.route('/py_delete', methods=['POST','GET'])

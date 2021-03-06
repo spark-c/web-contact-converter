@@ -1,2 +1,2 @@
 startatom.bat
-kidslinkedConverter/
+instance/generated/*
