@@ -10,12 +10,10 @@ import os
 
 app = Flask(__name__)
 app.secret_key = 'kidslinked'
-
-# app.config.update( # Commented out for use on Heroku becuase free apps are not HTTPS and session cookie cannot be set as secure
-#     SESSION_COOKIE_SECURE=True,
-#     SESSION_COOKIE_HTTPONLY=True,
-#     SESSION_COOKIE_SAMESITE='Lax'
-# )
+   # SESSION_COOKIE_SECURE=True, # Commented out for use on Heroku becuase free apps are not HTTPS and session cookie cannot be set as secure
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE='Lax'
+)
 print('path {}'.format(app.instance_path))
 app.config['DL_DIRECTORY'] = os.path.join(app.instance_path, 'generated')
 
