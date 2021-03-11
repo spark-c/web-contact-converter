@@ -1,0 +1,3 @@
+[submodule "kidslinkedConverter"]
+	path = kidslinkedConverter/
+	url = https://github.com/spark-c/kidslinkedConverter
