@@ -10,7 +10,8 @@ import os
 
 app = Flask(__name__)
 app.secret_key = 'kidslinked'
-   # SESSION_COOKIE_SECURE=True, # Commented out for use on Heroku becuase free apps are not HTTPS and session cookie cannot be set as secure
+app.config.update(
+    # SESSION_COOKIE_SECURE=True, # Commented out for use on Heroku becuase free apps are not HTTPS and session cookie cannot be set as secure
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE='Lax'
 )
