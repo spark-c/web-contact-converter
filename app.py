@@ -6,6 +6,19 @@ import json
 from kidslinkedConverter import kidslinkedConverter as kc
 import datetime
 import os
+import sys
+import logging
+from logging import Formatter
+
+def log_to_stderr(app):     # this function copied from https://stackoverflow.com/questions/26819050/running-flask-app-on-heroku
+                            # to help with debugging heroku deployment.
+  handler = logging.StreamHandler(sys.stderr)
+  handler.setFormatter(Formatter(
+    '%(asctime)s %(levelname)s: %(message)s '
+    '[in %(pathname)s:%(lineno)d]'
+  ))
+  handler.setLevel(logging.WARNING)
+  app.logger.addHandler(handler)
 
 
 app = Flask(__name__)
@@ -93,4 +106,5 @@ def delete_all():
 
 
 if __name__ == '__main__':
+    log_to_stderr(app)
     app.run()
