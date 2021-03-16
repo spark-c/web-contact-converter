@@ -20,7 +20,7 @@ function send_request(destination) {
       message: 'dummy-value'
     }
   }
-  set_checkboxes(checked=false) // unchecks all checkboxes. we will check all of the new ones.
+  set_checkboxes({nodes_list: undefined, toggle: undefined, checked: false}) // unchecks all checkboxes. we will check all of the new ones.
 
   console.log(destination)
   fetch(`${window.origin}/${destination}`, { // sending the request
@@ -105,20 +105,21 @@ function create_fields(type, data='') { // takes a dict of contact data and make
 };
 
 
-function set_checkboxes(node_list=false, toggle=false, checked=undefined) { // see below
+function set_checkboxes(params) {// node_list=false, toggle=false, checked=undefined) {  see below
   // if no list of nodes, then function selects all nodes on the document.
   // toggle = optionally toggle checked/unchecked
   // checked = set all nodes to checked(true) or unchecked(false)
   console.log('checkbox')
-  console.log(toggle)
-  if (typeof(node_list) === typeof(['array'])) {
-    var nodes = node_list
+  console.log(`checked is ${params.checked}`)
+  console.log(params.toggle)
+  if (typeof(params.node_list) === typeof(['array'])) {
+    var nodes = params.node_list
   } else {
     var nodes = document.querySelectorAll("input[type='checkbox']")
   }
   console.log(nodes)
 
-  if (toggle) {
+  if (params.toggle) {
     let i = 0
     for (let node of nodes) {
       if (node.checked === false) { // if any node is unchecked, then i > 0
@@ -138,10 +139,10 @@ function set_checkboxes(node_list=false, toggle=false, checked=undefined) { // s
     }
   }
 
-  if (!(checked === undefined)) { // if an argument was passed (bool)
+  if (!(params.checked === undefined)) { // if an argument was passed (bool)
     for (let node of nodes) {
       console.log(node)
-      node.checked = checked // true or false!
+      node.checked = params.checked // true or false!
     }
   }
 
@@ -149,7 +150,7 @@ function set_checkboxes(node_list=false, toggle=false, checked=undefined) { // s
 
 
 function select_toggle() { // lazy solution to select-all button's onclick
-  set_checkboxes(node_list=false, toggle=true, checked=undefined)
+  set_checkboxes({node_list: false, toggle: true, checked: undefined})
 };
 
 
