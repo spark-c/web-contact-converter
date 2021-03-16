@@ -20,6 +20,8 @@ function send_request(destination) {
       message: 'dummy-value'
     }
   }
+  set_checkboxes(checked=false) // unchecks all checkboxes. we will check all of the new ones.
+
   console.log(destination)
   fetch(`${window.origin}/${destination}`, { // sending the request
     method: "POST",
@@ -37,10 +39,13 @@ function send_request(destination) {
     }
     response.json().then(function(data) { // processes the
       console.log(`data: ${data}`)
+      let table = document.getElementById('companies-wrapper')
+
       for (let company of data) { // creates table rows and appends them to the table
         console.log(`company: ${company.name}`)
-        let table = document.getElementById('companies-wrapper')
-        table.appendChild(create_row(company))
+        let tmp = create_row(company) // separated from next line so that we can still access the elemnent in the line after
+        table.appendChild(tmp)
+        tmp.querySelector("[type='checkbox']").checked = true
       }
     })
   })
@@ -115,7 +120,7 @@ function set_checkboxes(node_list=false, toggle=false, checked=undefined) { // s
 
   if (toggle) {
     let i = 0
-    for (node of nodes) {
+    for (let node of nodes) {
       if (node.checked === false) { // if any node is unchecked, then i > 0
         console.log('unchecked')
         i = i + 1
@@ -123,18 +128,19 @@ function set_checkboxes(node_list=false, toggle=false, checked=undefined) { // s
     }
 
     if (i === 0) { // all nodes are checked
-      for (node of nodes) {
+      for (let node of nodes) {
         node.checked = false // uncheck them all
       }
     } else { // if at least one node is unchecked
-      for (node of nodes) {
+      for (let node of nodes) {
         node.checked = true // check them all
       }
     }
   }
 
-  if (!(typeof(checked) === undefined)) { // if an argument was passed (bool)
-    for (node in nodes) {
+  if (!(checked === undefined)) { // if an argument was passed (bool)
+    for (let node of nodes) {
+      console.log(node)
       node.checked = checked // true or false!
     }
   }
