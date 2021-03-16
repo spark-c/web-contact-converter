@@ -11,7 +11,7 @@ function replace_brs(with_tags) { // a contenteditable div uses <br> tags instea
 function send_request(destination) {
   if (destination === 'py_compile') { // only takes from textarea if called from button
     let target = document.getElementById('textarea');
-    console.log(target.value);
+    // console.log(target.value);
     var sendthis = {
       message: replace_brs(target.value)
     }
@@ -22,7 +22,7 @@ function send_request(destination) {
   }
   set_checkboxes({nodes_list: undefined, toggle: undefined, checked: false}) // unchecks all checkboxes. we will check all of the new ones.
 
-  console.log(destination)
+  // console.log(destination)
   fetch(`${window.origin}/${destination}`, { // sending the request
     method: "POST",
     credentials: "include",
@@ -38,11 +38,11 @@ function send_request(destination) {
       return ;
     }
     response.json().then(function(data) { // processes the
-      console.log(`data: ${data}`)
+      // console.log(`data: ${data}`)
       let table = document.getElementById('companies-wrapper')
 
       for (let company of data) { // creates table rows and appends them to the table
-        console.log(`company: ${company.name}`)
+        // console.log(`company: ${company.name}`)
         let tmp = create_row(company) // separated from next line so that we can still access the elemnent in the line after
         table.appendChild(tmp)
         tmp.querySelector("[type='checkbox']").checked = true
@@ -80,7 +80,7 @@ function create_row(company) { // one company's worth of information
 
 
 function create_fields(type, data='') { // takes a dict of contact data and makes them into table fields/cells
-  console.log(`createfields; type: ${type}, data: ${data}`)
+  // console.log(`createfields; type: ${type}, data: ${data}`)
   if (type === 'select') { // contains the select checkbox
     let selectField = document.createElement('div')
     selectField.classList.add('table-field', 'checkbox')
@@ -109,21 +109,21 @@ function set_checkboxes(params) {// node_list=false, toggle=false, checked=undef
   // if no list of nodes, then function selects all nodes on the document.
   // toggle = optionally toggle checked/unchecked
   // checked = set all nodes to checked(true) or unchecked(false)
-  console.log('checkbox')
-  console.log(`checked is ${params.checked}`)
-  console.log(params.toggle)
+  // console.log('checkbox')
+  // console.log(`checked is ${params.checked}`)
+  // console.log(params.toggle)
   if (typeof(params.node_list) === typeof(['array'])) {
     var nodes = params.node_list
   } else {
     var nodes = document.querySelectorAll("input[type='checkbox']")
   }
-  console.log(nodes)
+  // console.log(nodes)
 
   if (params.toggle) {
     let i = 0
     for (let node of nodes) {
       if (node.checked === false) { // if any node is unchecked, then i > 0
-        console.log('unchecked')
+        // console.log('unchecked')
         i = i + 1
       }
     }
@@ -141,7 +141,7 @@ function set_checkboxes(params) {// node_list=false, toggle=false, checked=undef
 
   if (!(params.checked === undefined)) { // if an argument was passed (bool)
     for (let node of nodes) {
-      console.log(node)
+      // console.log(node)
       node.checked = params.checked // true or false!
     }
   }
@@ -161,7 +161,7 @@ function generate() {
   //   alert('Generation cancelled.')
   //   return
   // }
-  console.log('sending request')
+  // console.log('sending request')
   fetch(`${window.origin}/py_generate`, { // sending the request
     method: "POST",
     credentials: "include",
@@ -182,18 +182,19 @@ function generate() {
 
 window.onload = (event) => { // appends existing data to table on page load
   send_request('compile_from_session')
-  console.log('should have pinned')
+  // console.log('should have pinned')
 }
 
 var compileElement = document.querySelector('#compile-button') // adds listener for compile button
 compileElement.addEventListener('click', function() {
   send_request('py_compile')
 })
-console.log(compileElement)
+// console.log(compileElement)
 
-var deleteallElement = document.querySelector('#delete-all')
-deleteallElement.addEventListener('click', function() {
-  send_request('delete_all')
-})
+// var deleteallElement = document.querySelector('#delete-all')
+// deleteallElement.addEventListener('click', function() {
+//   send_request('delete_all').then( () => {location.reload(true)})
+//   // location.reload()
+// })
 
   // for piece of info in response[company], make an appropriate div

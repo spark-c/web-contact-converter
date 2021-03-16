@@ -26,7 +26,7 @@ app.config['DL_DIRECTORY'] = os.path.join(app.instance_path, 'generated')
 @app.route('/', methods=['POST', 'GET'])
 def home():
         if session.get('all_companies'): # checks if the key exists
-            print(session['all_companies'])
+            # print(session['all_companies'])
             return render_template('index.html', session_data=True, total_companies=len(session['all_companies'])) # tell js to load session data to page
         else:
             session['all_companies'] = []
@@ -35,9 +35,9 @@ def home():
 
 @app.route('/compile_from_session', methods=['POST', 'GET'])
 def compile_from_session():
-    print('in function')
+    # print('in function')
     response = make_response(jsonify(session['all_companies']), 200)
-    print(response)
+    # print(response)
     return response
 
 
@@ -61,7 +61,7 @@ def py_generate():
     temp = session['all_companies']
 
     # doc_title = req['message']
-    print('session: {} companies'.format(len(temp)))
+    # print('session: {} companies'.format(len(temp)))
     wb = kc.generate_wb(temp)
     filepath = app.config['DL_DIRECTORY'] + 'output.xlsx'
     with open(filepath, 'wb') as temp:
@@ -74,7 +74,7 @@ def py_generate():
     as_attachment=True
     )
     try:
-        print('sending... ')
+        # print('sending... ')
         return response
     except FileNotFoundError:
         abort(404)
@@ -87,6 +87,7 @@ def py_delete():
 
 @app.route('/delete_all', methods=['POST', 'GET'])
 def delete_all():
+    print('deleting all')
     session['all_companies'] = []
     return redirect(url_for('home'))
 
