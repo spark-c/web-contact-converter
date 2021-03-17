@@ -5,3 +5,10 @@
 -"Delete All" button now refreshes the page
 -fixed set_checkboxes() function
 	-this fixed broken situations in select-all button and COMPILE behavior
+	
+some updates to layout and styling:
+-instructions and input areas are now in a two-column format
+-fixed up instructions to be neater and cleaner, with lists
+-placeholder text in the box is now the example contact info to demonstrate formatting
+-added a footer banner with my name, email, github link, and "Work in progress!" note 
+-unfinsihed Delete Selected button now shows "TODO"
