@@ -15,6 +15,11 @@ body {
   padding-top: 200px;
 } */
 
+#upper {
+  display: flex;
+  flex-direction: row;
+}
+
 #banner {
   text-align: center;
   font-size: 5vh;
@@ -25,47 +30,40 @@ body {
 
 #instructions-wrapper {
   /* background-color: black; */
-  width: 70vw;
-  padding-left: 15vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40vw;
+  margin: 5vh 0vw 5vh 10vw;
+  /* padding-bottom: 4em; */
 }
 
 #instructions {
+  margin-top:
   text-align: center;
-  font-size: 1.2em;
+  font-size: 1.1em;
   background-color: black;
-  padding: 1vh;
-  /* width: 70vw;
-  padding-left: 15vw;
-  padding-top: 2vh; */
-}
-
-p {
-  font-size: .8em;
-  text-align: left;
 }
 
 #input-wrapper {
-  margin-left: 25vw;
   display: flex;
   flex-direction: column;
-  height: 20em;
-  margin-top: 5vh;
-
+  margin: 5vh 10vw 0vh 10vw;
 }
 
 #textarea {
   color: black;
   background-color: #BCAC80;
   font-size: .9em;
-  height: 20em;
-  width: 50vw;
+  width: 30vw;
+  height: 35em;
 }
 
 #input-button-wrapper {
   /* background-color: green; */
   display: flex;
   flex-direction: row;
-  width: 50vw;
+  /* width: 50vw; */
   justify-content: space-between;
 }
 
@@ -128,5 +126,22 @@ p {
 
 #delete-wrapper {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+}
+
+#footer {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  background-color: black;
+  height: 2em;
+  width: 100vw;
+}
+
+.my-contact {
+  margin: 0px 2em 0px 2em;
+}
+
+.underline {
+  text-decoration: underline;
 }

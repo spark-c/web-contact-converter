@@ -21,40 +21,44 @@
     </header>
 
     <div id='content'>
-      <div id='instructions-wrapper'>
-        <div id='instructions'>
-          <p style='font-size:1.2em'>PLACEHOLDER - Use this tool in order to create a spreadsheet from contact information.
-          There is a box somewhere on this page that you can paste lots of info into.
-          Click the COMPILE button to add them to the table below.
-          Once you're finished, hit the GENERATE button to generate a spreadsheet
-          that you will be able to download. Click DELETE ALL (below this text) and refresh the page to clear all data.</p>
+      <div id='upper'>
+        <div id='instructions-wrapper'>
+          <div id='instructions'>
+            Use this tool in order to create a spreadsheet from contact information.
+            Enter contact information into the textbox according to the format described below.<br><br>
+            <ol>1) Click the COMPILE button to add the data from the textbox to the table.</ol>
+            <ol>2) Once you're finished, hit the GENERATE button to generate a spreadsheet!</ol>
+            <ol>3) Click DELETE ALL (below this text) to clear all data from the table.</ol>
 
-          <p>Format: the first line must be the company name. Each new line should hold a piece of contact info.
-          separate each block of info with an EMPTY line!!</p>
+            <span class='underline'>Format:</span>
+            <ul>The first line must be the company name.</ul>
+            <ul>Each new line should hold a piece of contact info.</ul>
+            <ul>Separate each block of info with an EMPTY line!!</ul>
+          </div>
 
-          <p>Super Corporation<br>
-          Alex Reams<br>
-          630-555-1234<br>
-          areams@supercorp.com<br>
-          <br>
-          Helios Realty<br>
-          Emil Jones<br>
-          645-555-9630<br>
-          ejones@email.com<br>
-
+          <form name='delete-all-form' action='/delete_all' method='POST'>
+            <input id='delete-all' type='submit' value='Delete All'>
+          </form>
 
         </div>
-        <form name='delete-all-form' action='/delete_all' method='POST'>
-          <input id='delete-all' type='submit' value='Delete All'>
-        </form>
-      </div>
 
 
-      <div id='input-wrapper'>
-        <textarea id='textarea'>This is placeholder text.</textarea>
-        <div id='input-button-wrapper'>
-          <div class='button-wrapper' id='compile-wrapper'><button id='compile-button' type='button' class=input-button name='compile'>Compile</button></div>
-          <div class='button-wrapper' id='generate-wrapper'><button id='generate-button' type='button' onclick='generate()' class=input-button name='generate'>Generate Sheet</button></div>
+        <div id='input-wrapper'>
+          <textarea id='textarea'>
+Example Corporation
+Firstname Lastname
+123-555-1234
+flastname@examplecorp.com
+
+Builder Co.
+Another Name
+321-555-4321
+aname@builderco.com
+          </textarea>
+          <div id='input-button-wrapper'>
+            <div class='button-wrapper' id='compile-wrapper'><button id='compile-button' type='button' class=input-button name='compile'>Compile</button></div>
+            <div class='button-wrapper' id='generate-wrapper'><button id='generate-button' type='button' onclick='generate()' class=input-button name='generate'>Generate Sheet</button></div>
+          </div>
         </div>
       </div>
 
@@ -67,7 +71,7 @@
             <div class='table-field in-head'>Email</div>
             <div class='table-field in-head'>Phone</div>
             <div class='table-field in-head'>Address</div>
-            <div id='delete-wrapper' class='table-field'><button id='delete' class='table-button' name='delete'>Delete Selected</button></div>
+            <div id='delete-wrapper' class='table-field'><button id='delete' class='table-button' name='delete'>TODO:Delete Selected</button></div>
           </div>
         </div>
         <div id="companies-wrapper" class='table-section'>
@@ -88,7 +92,13 @@
         </div>
       </div>
     </div>
-    <!-- <footer><p id='footer'>Collin made this!</p></footer> -->
+
+    <div id='footer'>
+      <div id='my-name' class='my-contact'>Collin Sparks</div>
+      <div id='my-email' class='my-contact'>cklsparks@gmail.com</div>
+      <div id='my-github' class='my-contact'><a href='https://github.com/spark-c/web-contact-converter' target='_blank'>GitHub</a></div>
+      <div id='wip' class='my-contact'>Work in progress!</div>
+    </div>
 
   </body>
 
