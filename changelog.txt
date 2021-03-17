@@ -1,0 +1,7 @@
+===16 MARCH 2021
+-added changelog.txt
+-added development branch
+
+-"Delete All" button now refreshes the page
+-fixed set_checkboxes() function
+	-this fixed broken situations in select-all button and COMPILE behavior
