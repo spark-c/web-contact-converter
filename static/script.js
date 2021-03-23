@@ -37,27 +37,26 @@ function send_request(destination) {
       console.log(`There was an error! Code ${response.status}`);
       return ;
     }
-    response.json().then(function(data) { // processes the
-      // console.log(`data: ${data}`)
-      let table = document.getElementById('select-form')
-
-      for (let company of data) { // creates table rows and appends them to the table
-        // console.log(`company: ${company.name}`)
-        let tmp = create_row(company) // separated from next line so that we can still access the elemnent in the line after
-        table.appendChild(tmp)
-        console.log('appending')
-        tmp.querySelector("[type='checkbox']").checked = true
-      }
-    })
+    return response.json()
   })
-  // .then(function() { // this will update the COMPANIES IN SESSION banner
-  //   console.log('in banner update')
-  //   let elem = document.querySelector('#banner-decor')
-  //   let table_size = document.querySelectorAll('.table-row').length - 1 // -1 accounts for header/label row
-  //   console.log(document.querySelectorAll('.table-row'))
-  //   console.log(table_size)
-  //   elem.textContent = `Companies in Session: ${table_size}`
-  // })
+  .then(function(data) { // processes the
+    // console.log(`data: ${data}`)
+    let table = document.getElementById('select-form')
+
+    for (let company of data) { // creates table rows and appends them to the table
+      // console.log(`company: ${company.name}`)
+      let tmp = create_row(company) // separated from next line so that we can still access the elemnent in the line after
+      table.appendChild(tmp)
+      console.log('appending')
+      tmp.querySelector("[type='checkbox']").checked = true
+    }
+    return document.querySelectorAll('.table-row').length -1 // the -1 accounts for the table header row
+  })
+  .then(function(length) { // this will update the COMPANIES IN SESSION banner
+    console.log('in banner update')
+    let elem = document.querySelector('#banner-decor')
+    elem.textContent = `Companies in Session: ${length}`
+  })
 };
 
 
