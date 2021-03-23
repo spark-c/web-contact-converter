@@ -71,24 +71,30 @@ aname@builderco.com
             <div class='table-field in-head'>Email</div>
             <div class='table-field in-head'>Phone</div>
             <div class='table-field in-head'>Address</div>
-            <div id='delete-wrapper' class='table-field'><button id='delete' class='table-button' name='delete'>TODO:Delete Selected</button></div>
+            <div id='delete-wrapper' class='table-field'><input id='delete' type='submit' form='select-form' type='table-button' name='delete' value='Delete Selected'/></div>
           </div>
         </div>
         <div id="companies-wrapper" class='table-section'>
 
-        <!-- sample placeholder company info
-          <div class='table-row'>
-            <div name='select-wrapper' class='table-field checkbox'><input id='test' type='checkbox' name='selected' /></div>
-            <div name='name' class='table-field'>AmCorp</div>
-            <div name='contact' class='table-field'>Joe Dude</div>
-            <div name='email' class='table-field'>jdude@amcorp.com</div>
-            <div name='phone' class='table-field'>333-555-6256</div>
-            <div name='address' class='table-field'>6023 Amcorp Way Arugula, CA 95234</div>
-            <div name='spacer' class='table-field'></div>
-          </div>
-        end sample info -->
 
-          <!-- append companies here with javascript -->
+          <form id='select-form' action="/delete_selected" method="POST"> <!-- to be submitted with external delete-selected button -->
+
+            <!-- sample placeholder company info
+              <div class='table-row'>
+                <div name='select-wrapper' class='table-field checkbox'><input id='test' type='checkbox' name='selected' /></div>
+                <div name='name' class='table-field'>AmCorp</div>
+                <div name='contact' class='table-field'>Joe Dude</div>
+                <div name='email' class='table-field'>jdude@amcorp.com</div>
+                <div name='phone' class='table-field'>333-555-6256</div>
+                <div name='address' class='table-field'>6023 Amcorp Way Arugula, CA 95234</div>
+                <div name='spacer' class='table-field'></div>
+              </div>
+            end sample info -->
+
+              <!-- append companies here with javascript -->
+          </form>
+
+
         </div>
       </div>
     </div>
