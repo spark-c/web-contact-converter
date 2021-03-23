@@ -79,25 +79,25 @@ def py_generate():
 
 @app.route('/delete_selected', methods=['POST','GET'])
 def delete_selected():
-    delete_names = set() # this will be our key for which comps to delete
+    delete_keys = set() # this will be our key for which comps to delete (emails since those are unique)
     for entry in request.form: # each entry is a company name
         print('added {} to the set'.format(entry))
-        delete_names.add(entry)
+        delete_keys.add(entry)
 
     current_session = session['all_companies']
     new_session = []
-    print('current_session at start: {}'.format([obj['name'] for obj in current_session]))
+    print('current_session at start: {}'.format([obj['emails'] for obj in current_session]))
     for index, obj in enumerate(current_session):
-        print('testing {} {}'.format(index, obj['name'][0]))
+        print('testing {} {}'.format(index, obj['emails'][0]))
         try:
-            if obj['name'][0] not in delete_names: # the [0] index is here because obj['name'] is a list, side-effect from compiling strategy
+            if obj['emails'][0] not in delete_keys: # the [0] index is here because obj['name'] is a list, side-effect from compiling strategy
                 new_session.append(obj)
                 print('deleted')
         except:
-            print('ERROR, name {} not in list'.format(obj['name'][0]))
+            print('ERROR, name {} not in list'.format(obj['emails'][0]))
             continue
     session['all_companies'] = new_session
-    print('current session at end: {}'.format([obj['name'] for obj in new_session]))
+    print('current session at end: {}'.format([obj['emails'] for obj in new_session]))
 
     return redirect(url_for('home'))
 

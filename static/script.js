@@ -78,7 +78,7 @@ function create_row(company) { // one company's worth of information
     'phones',
     'address',
   ]
-  newDiv.appendChild(create_fields('select', company.name)) // first piece of the row from left-to-right; TESTING including company[name] to name the checkbox
+  newDiv.appendChild(create_fields('select', company.emails[0])) // first piece of the row from left-to-right
   for (const type of field_types) {
     newDiv.appendChild(create_fields(type, company[type])) //
   }
