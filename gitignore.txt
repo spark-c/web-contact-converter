@@ -1,3 +1,4 @@
 startatom.bat
 instance/generated/*
 runFlask.bat
+__pycache__/

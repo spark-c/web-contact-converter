@@ -45,15 +45,12 @@ def compile_from_session():
 def py_compile():
     new_companies = []
     temp = session['all_companies'] # saves all companies in memory to temporary list
-    #receive JSON request from frontend
     req = request.get_json()
     for company in kc.compile_for_remote(req): # for loop, otherwise we get nested lists which complicates json
         new_companies.append(company)
         temp.append(company)
     session['all_companies'] = temp # store updated master list in session
-    #return response object
     response = make_response(jsonify(new_companies), 200)
-    # return render_template('index.html')
     return response
 
 @app.route('/py_generate', methods=['POST', 'GET'])
@@ -80,15 +77,42 @@ def py_generate():
         abort(404)
 
 
-@app.route('/py_delete', methods=['POST','GET'])
-def py_delete():
-    pass
+@app.route('/delete_selected', methods=['POST','GET'])
+def delete_selected():
+    delete_keys = set() # this will be our key for which comps to delete (emails since those are unique)
+    for entry in request.form: # each entry is a company name
+        print('added {} to the set'.format(entry))
+        delete_keys.add(entry)
+
+    current_session = session['all_companies']
+    new_session = []
+    print('current_session at start: {}'.format([obj['emails'] for obj in current_session]))
+    for index, obj in enumerate(current_session):
+        print('testing {} {}'.format(index, obj['emails'][0]))
+        try:
+            if obj['emails'][0] not in delete_keys: # the [0] index is here because obj['name'] is a list, side-effect from compiling strategy
+                new_session.append(obj)
+                print('deleted')
+        except:
+            print('ERROR, name {} not in list'.format(obj['emails'][0]))
+            continue
+    session['all_companies'] = new_session
+    print('current session at end: {}'.format([obj['emails'] for obj in new_session]))
+
+    return redirect(url_for('home'))
 
 
 @app.route('/delete_all', methods=['POST', 'GET'])
 def delete_all():
     print('deleting all')
     session['all_companies'] = []
+    return redirect(url_for('home'))
+
+
+@app.route('/echo', methods=['POST', 'GET']) # echoes in console the text of the request
+def echo():
+    req = request.form
+    print('ECHO:\n{}'.format(req))
     return redirect(url_for('home'))
 
 

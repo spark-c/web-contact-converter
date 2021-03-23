@@ -37,17 +37,25 @@ function send_request(destination) {
       console.log(`There was an error! Code ${response.status}`);
       return ;
     }
-    response.json().then(function(data) { // processes the
-      // console.log(`data: ${data}`)
-      let table = document.getElementById('companies-wrapper')
+    return response.json()
+  })
+  .then(function(data) { // processes the
+    // console.log(`data: ${data}`)
+    let table = document.getElementById('select-form')
 
-      for (let company of data) { // creates table rows and appends them to the table
-        // console.log(`company: ${company.name}`)
-        let tmp = create_row(company) // separated from next line so that we can still access the elemnent in the line after
-        table.appendChild(tmp)
-        tmp.querySelector("[type='checkbox']").checked = true
-      }
-    })
+    for (let company of data) { // creates table rows and appends them to the table
+      // console.log(`company: ${company.name}`)
+      let tmp = create_row(company) // separated from next line so that we can still access the elemnent in the line after
+      table.appendChild(tmp)
+      console.log('appending')
+      tmp.querySelector("[type='checkbox']").checked = true
+    }
+    return document.querySelectorAll('.table-row').length -1 // the -1 accounts for the table header row
+  })
+  .then(function(length) { // this will update the COMPANIES IN SESSION banner
+    console.log('in banner update')
+    let elem = document.querySelector('#banner-decor')
+    elem.textContent = `Companies in Session: ${length}`
   })
 };
 
@@ -70,9 +78,9 @@ function create_row(company) { // one company's worth of information
     'phones',
     'address',
   ]
-  newDiv.appendChild(create_fields('select')) // first piece of the row from left-to-right
+  newDiv.appendChild(create_fields('select', company.emails[0])) // first piece of the row from left-to-right
   for (const type of field_types) {
-    newDiv.appendChild(create_fields(type, company[type]))
+    newDiv.appendChild(create_fields(type, company[type])) //
   }
   newDiv.appendChild(create_fields('spacer')) //used for spacing on the page, empty div in the column of the delete-selected button
   return newDiv; // this should be a complete row
@@ -86,7 +94,7 @@ function create_fields(type, data='') { // takes a dict of contact data and make
     selectField.classList.add('table-field', 'checkbox')
 
     let selectBox = document.createElement('input') // the actual <input type='checkbox'>
-    setAttributes(selectBox, {'type': 'checkbox', 'name': 'selected'})
+    setAttributes(selectBox, {'type': 'checkbox', 'name': data})
     selectField.appendChild(selectBox)
     return selectField;
 
