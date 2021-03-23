@@ -1,11 +1,12 @@
-<!-- Landing page for "web-contact-converter". Collin Sparks, Feb 2021 -->
+<!-- Landing page for "web-contact-converter". https://github.com/spark-c/web-contact-converter -->
+<!--  Collin Sparks, cklsparks@gmail.com, Feb 2021 -->
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
   <head>
     <meta charset="utf-8">
-    <title>Contact Converter</title>
+    <title>web-contact-converter</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/style.css') }}" />
     <link rel="stylesheet" type='text/css' href="../static/stylesheets/style.css" />
 
@@ -13,46 +14,54 @@
 
   <body>
     <header>
-      <div id='banner'>
-        <div id='banner-decor'>
-          Companies in Session: {{ total_companies }}
+      <div id='banner' class='secondary placard'>
+        <div id='banner-title' class='banner-item'>web-contact-converter</div>
+        <div id='session-counter' class='secondary banner-item'>
+          Companies: {{ total_companies }}
         </div>
+      </div>
+      <div id='delete-all-wrapper'>
+        <form name='delete-all-form' action='/delete_all' method='POST'>
+          <input id='delete-all' type='submit' value='Delete All'>
+        </form>
       </div>
     </header>
 
     <div id='content'>
       <div id='upper'>
         <div id='instructions-wrapper'>
-          <div id='instructions'>
+          <div id='instructions' class='secondary placard'>
             Use this tool in order to create a spreadsheet from contact information.
             Enter contact information into the textbox according to the format described below.<br><br>
             <ol>1) Click the COMPILE button to add the data from the textbox to the table.</ol>
             <ol>2) Once you're finished, hit the GENERATE button to generate a spreadsheet!</ol>
-            <ol>3) Click DELETE ALL (below this text) to clear all data from the table.</ol>
+            <ol>3) Click DELETE ALL (top-right of the page) to clear all data from the table.</ol>
 
-            <span class='underline'>Format:</span>
+            <span class='underline'>Input Format:</span>
             <ul>The first line must be the company name.</ul>
             <ul>Each new line should hold a piece of contact info.</ul>
             <ul>Separate each block of info with an EMPTY line!!</ul>
           </div>
 
-          <form name='delete-all-form' action='/delete_all' method='POST'>
+          <!-- <form name='delete-all-form' action='/delete_all' method='POST'>
             <input id='delete-all' type='submit' value='Delete All'>
-          </form>
+          </form> -->
 
         </div>
 
 
         <div id='input-wrapper'>
-          <textarea id='textarea'>
+          <textarea id='textarea' class='secondary placard'>
 Example Corporation
 Firstname Lastname
 123-555-1234
 flastname@examplecorp.com
+3200 Progress Ln
+Eureka, CA 92000
 
 Builder Co.
 Another Name
-321-555-4321
+(321) 555-4321
 aname@builderco.com
           </textarea>
           <div id='input-button-wrapper'>
@@ -62,39 +71,42 @@ aname@builderco.com
         </div>
       </div>
 
-      <div id="table-wrapper">
-        <div id="table-header" class='table-section'>
-          <div class='table-row'>
-            <div id='select-all-wrapper' class='table-field'><button id='select-all' class='table-button' name='select-all' onclick='select_toggle()'>Select All</button></div>
-            <div class='table-field in-head'>Company</div>
-            <div class='table-field in-head'>Name</div>
-            <div class='table-field in-head'>Email</div>
-            <div class='table-field in-head'>Phone</div>
-            <div class='table-field in-head'>Address</div>
-            <div id='delete-wrapper' class='table-field'><input id='delete' type='submit' form='select-form' type='table-button' name='delete' value='Delete Selected'/></div>
+
+      <div id='lower' class='secondary'>
+        <div id="table-wrapper" class=''>
+          <div id="table-header" class='table-section'>
+            <div class='table-row'>
+              <div id='select-all-wrapper' class='table-field'><button id='select-all' class='table-button' name='select-all' onclick='select_toggle()'>Select All</button></div>
+              <div class='table-field in-head'>Company</div>
+              <div class='table-field in-head'>Name</div>
+              <div class='table-field in-head'>Email</div>
+              <div class='table-field in-head'>Phone</div>
+              <div class='table-field in-head'>Address</div>
+              <div id='delete-wrapper' class='table-field'><input id='delete' type='submit' form='select-form' type='table-button' name='delete' value='Delete Selected'/></div>
+            </div>
           </div>
-        </div>
-        <div id="companies-wrapper" class='table-section'>
+          <div id="companies-wrapper" class='table-section'>
 
 
-          <form id='select-form' action="/delete_selected" method="POST"> <!-- to be submitted with external delete-selected button -->
+            <form id='select-form' action="/delete_selected" method="POST"> <!-- to be submitted with external delete-selected button -->
 
-            <!-- sample placeholder company info
-              <div class='table-row'>
-                <div name='select-wrapper' class='table-field checkbox'><input id='test' type='checkbox' name='selected' /></div>
-                <div name='name' class='table-field'>AmCorp</div>
-                <div name='contact' class='table-field'>Joe Dude</div>
-                <div name='email' class='table-field'>jdude@amcorp.com</div>
-                <div name='phone' class='table-field'>333-555-6256</div>
-                <div name='address' class='table-field'>6023 Amcorp Way Arugula, CA 95234</div>
-                <div name='spacer' class='table-field'></div>
-              </div>
-            end sample info -->
+              <!-- sample placeholder company info
+                <div class='table-row'>
+                  <div name='select-wrapper' class='table-field checkbox'><input id='test' type='checkbox' name='selected' /></div>
+                  <div name='name' class='table-field'>AmCorp</div>
+                  <div name='contact' class='table-field'>Joe Dude</div>
+                  <div name='email' class='table-field'>jdude@amcorp.com</div>
+                  <div name='phone' class='table-field'>333-555-6256</div>
+                  <div name='address' class='table-field'>6023 Amcorp Way Arugula, CA 95234</div>
+                  <div name='spacer' class='table-field'></div>
+                </div>
+              end sample info -->
 
-              <!-- append companies here with javascript -->
-          </form>
+                <!-- append companies here with javascript -->
+            </form>
 
 
+          </div>
         </div>
       </div>
     </div>

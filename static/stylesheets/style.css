@@ -1,19 +1,32 @@
 /* stylesheet for web-contact-converter frontend. Collin Sparks, Feb 2021 */
 
+:root {
+  --primary-background-color: #275BBA;
+  --dark-adjacent-color: #112346;
+  --light-complimentary-color: #EDE9C3;
+  --accent-color: #CC2D38;
+}
+
 body {
-  background-color: navy;
+  background-color: var(--primary-background-color);
   font-size: 1.2em;
-  min-height: 100vh
+  min-height: 100vh;
+  font-family: Arial;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+}
+
+#delete-all-wrapper {
+  align-self: flex-end;
+  margin: 15px 5vw 0px 0px;
 }
 
 #content {
   min-height: 100vh;
-  padding-bottom: 20vh;
 }
-
-/* #footer {
-  padding-top: 200px;
-} */
 
 #upper {
   display: flex;
@@ -21,28 +34,38 @@ body {
 }
 
 #banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   text-align: center;
-  font-size: 5vh;
+  font-size: 3vh;
   height: 7vh;
-  background-color: black;
   padding: 1vh;
+  margin: 2vh 2vw 0px 2vw;
+}
+
+.banner-item {
+  padding: 0px 2vw 0px 2vw;
+}
+
+#banner-title {
+  font-size: 1.3em;
+  font-style: italic;
 }
 
 #instructions-wrapper {
-  /* background-color: black; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 40vw;
   margin: 5vh 0vw 5vh 10vw;
-  /* padding-bottom: 4em; */
 }
 
 #instructions {
   margin-top:
   text-align: center;
   font-size: 1.1em;
-  background-color: black;
+  padding: 10px;
 }
 
 #input-wrapper {
@@ -52,8 +75,8 @@ body {
 }
 
 #textarea {
-  color: black;
-  background-color: #BCAC80;
+  /* color: black;
+  background-color: #BCAC80; */
   font-size: .9em;
   width: 30vw;
   height: 35em;
@@ -70,17 +93,15 @@ body {
 .input-button {
   height: 3em;
   width: 7em;
-  margin: 1vh 2vw;
+  margin: 15px 2vw;
 }
 
 #table-wrapper {
   display: flex;
   flex-direction: column;
   width: 90vw;
-  background-color: green;
-  margin-left: 5vw;
-  margin-top: 5vh;
-  margin-bottom: 10vh;
+  /* background-color: green; */
+  /* margin: 3vh 2vw 0px 2vw; */
 }
 
 #select-all-wrapper {
@@ -95,23 +116,37 @@ body {
 }
 
 .table-row {
+  background-color: var(--accent-color);
+  padding: 5px;
+  border-radius: 5px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin: 5px 0px 5px 0px;
 }
 
 .table-field {
-  border-style: solid;
-  border-width: 2px;
-  background-color: red;
+  /* background-color: var(--light-complimentary-color); */
   width: 12vw;
   font-size: .7em;
   padding: 2px 0px;
   white-space: nowrap;
+  border-radius: 2.5px;
+  color: white;
 }
 
 .in-head {
   font-size: 1em;
+  color: var(--light-complimentary-color);
+  text-shadow:
+  1px 1px var(--dark-adjacent-color),
+  -1px 1px var(--dark-adjacent-color),
+  1px -1px var(--dark-adjacent-color),
+  -1px -1px var(--dark-adjacent-color);
+}
+
+.table-section {
+  padding: 0px;
 }
 
 .checkbox {
@@ -129,10 +164,22 @@ body {
   justify-content: center;
 }
 
+#lower {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2vh;
+  padding-bottom: 10vh;
+  background-color: var(--dark-adjacent-color);
+  border-radius: 10px;
+  margin: 5vh 0px 2vh 0px;
+}
+
 #footer {
   position: absolute;
   display: flex;
   flex-direction: row;
+  align-items: center;
   background-color: black;
   height: 2em;
   width: 100vw;
@@ -144,4 +191,19 @@ body {
 
 .underline {
   text-decoration: underline;
+}
+
+.secondary {
+  background-color: var(--light-complimentary-color);
+  color: var(--dark-adjacent-color);
+}
+
+.accent {
+  background-color: var(--accent-color);
+}
+
+.placard {
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: -10px 10px var(--dark-adjacent-color);
 }

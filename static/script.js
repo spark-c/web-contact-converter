@@ -54,8 +54,8 @@ function send_request(destination) {
   })
   .then(function(length) { // this will update the COMPANIES IN SESSION banner
     console.log('in banner update')
-    let elem = document.querySelector('#banner-decor')
-    elem.textContent = `Companies in Session: ${length}`
+    let elem = document.querySelector('#session-counter')
+    elem.textContent = `Companies: ${length}`
   })
 };
 
