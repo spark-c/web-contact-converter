@@ -13,13 +13,22 @@ It requires the data input to be formatted as follows:
 e.g.
 
 High Street Cleaners
+
 (123) 555-1234
+
 info@highstreetcleaners.com
+
 9000 Laundry Ln
+
 Earlington, WI 70264
 
+
+
 Another Corp.
+
 987-555-3214
+
 help@anothercorp.net
+
 
 ...
