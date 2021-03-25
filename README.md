@@ -10,25 +10,4 @@ It requires the data input to be formatted as follows:
 -Each line contains one piece of the company's information
 -The first line of the block must be the company's name.
 
-e.g.
-
-High Street Cleaners
-
-(123) 555-1234
-
-info@highstreetcleaners.com
-
-9000 Laundry Ln
-
-Earlington, WI 70264
-
-
-
-Another Corp.
-
-987-555-3214
-
-help@anothercorp.net
-
-
-...
+See 'example.txt' for an example of the expected input. (This README file does not properly preserve the line breaks on github.)
