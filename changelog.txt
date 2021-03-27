@@ -1,3 +1,7 @@
+===26 MARCH 2021
+-I now realize that I forgot to keep this changelog updated as I went.
+-In the future, I found an open-source project called "github-changelog-generator" that I want to try using!
+
 ===16 MARCH 2021
 -added changelog.txt
 -added development branch
