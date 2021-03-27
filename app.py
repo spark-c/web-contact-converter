@@ -1,10 +1,10 @@
 # Flask code for the module "web-contact-converter", a web app used to generate spreadsheets from contact information
 # Collin Sparks, Feb 2021
-# Python 3
-from flask import Flask, request, render_template, jsonify, send_file, send_from_directory, make_response, session, redirect, url_for, abort
+# cklsparks@gmail.com, https://github.com/spark-c/web-contact-converter
+
+from flask import Flask, request, render_template, jsonify, send_file, make_response, session, redirect, url_for, abort
 import json
 from kidslinkedConverter import kidslinkedConverter as kc
-import datetime
 import os
 
 
@@ -19,32 +19,26 @@ print('path {}'.format(app.instance_path))
 app.config['DL_DIRECTORY'] = os.path.join(app.instance_path, 'generated')
 
 
-# all_companies = []
-
-
 @app.route('/home', methods=['POST', 'GET'])
 @app.route('/', methods=['POST', 'GET'])
 def home():
-        if session.get('all_companies'): # checks if the key exists
-            # print(session['all_companies'])
-            return render_template('index.html', session_data=True, total_companies=len(session['all_companies'])) # tell js to load session data to page
-        else:
-            session['all_companies'] = []
-            return render_template('index.html', session_data=False, total_companies=len(session['all_companies'])) # clean load of page
+    if session.get('all_companies'): # checks if the key exists
+        return render_template('index.html', total_companies=len(session['all_companies']))
+    else:
+        session['all_companies'] = []
+        return render_template('index.html', total_companies=len(session['all_companies'])) # clean load of page
 
 
 @app.route('/compile_from_session', methods=['POST', 'GET'])
-def compile_from_session():
-    # print('in function')
+def compile_from_session(): # sends the companies currently in the session
     response = make_response(jsonify(session['all_companies']), 200)
-    # print(response)
     return response
 
 
 @app.route('/py_compile', methods=['POST', 'GET'])
 def py_compile():
     new_companies = []
-    temp = session['all_companies'] # saves all companies in memory to temporary list
+    temp = session['all_companies'] # saves all companies to temporary list
     req = request.get_json()
     for company in kc.compile_for_remote(req): # for loop, otherwise we get nested lists which complicates json
         new_companies.append(company)
@@ -53,12 +47,11 @@ def py_compile():
     response = make_response(jsonify(new_companies), 200)
     return response
 
+
 @app.route('/py_generate', methods=['POST', 'GET'])
-def py_generate():
+def py_generate(): # generates spreadsheet from data in session. spreadsheet is created in ./instance directory and sent to the user
     temp = session['all_companies']
 
-    # doc_title = req['message']
-    # print('session: {} companies'.format(len(temp)))
     wb = kc.generate_wb(temp)
     filepath = app.config['DL_DIRECTORY'] + 'output.xlsx'
     with open(filepath, 'wb') as temp:
@@ -71,7 +64,6 @@ def py_generate():
     as_attachment=True
     )
     try:
-        # print('sending... ')
         return response
     except FileNotFoundError:
         abort(404)
@@ -79,22 +71,19 @@ def py_generate():
 
 @app.route('/delete_selected', methods=['POST','GET'])
 def delete_selected():
-    delete_keys = set() # this will be our key for which comps to delete (emails since those are unique)
+    delete_keys = set() # this will be our key for which companies to delete (using emails, since those are unique)
     for entry in request.form: # each entry is a company name
-        print('added {} to the set'.format(entry))
         delete_keys.add(entry)
 
     current_session = session['all_companies']
     new_session = []
-    print('current_session at start: {}'.format([obj['emails'] for obj in current_session]))
     for index, obj in enumerate(current_session):
-        print('testing {} {}'.format(index, obj['emails'][0]))
         try:
-            if obj['emails'][0] not in delete_keys: # the [0] index is here because obj['name'] is a list, side-effect from compiling strategy
+            if obj['emails'][0] not in delete_keys:
                 new_session.append(obj)
                 print('deleted')
         except:
-            print('ERROR, name {} not in list'.format(obj['emails'][0]))
+            print('ERROR, item {} not in list'.format(obj['emails'][0]))
             continue
     session['all_companies'] = new_session
     print('current session at end: {}'.format([obj['emails'] for obj in new_session]))
@@ -109,11 +98,11 @@ def delete_all():
     return redirect(url_for('home'))
 
 
-@app.route('/echo', methods=['POST', 'GET']) # echoes in console the text of the request
-def echo():
-    req = request.form
-    print('ECHO:\n{}'.format(req))
-    return redirect(url_for('home'))
+# @app.route('/echo', methods=['POST', 'GET']) # for debug; echoes in console the text of the request
+# def echo():
+#     req = request.form
+#     print('ECHO:\n{}'.format(req))
+#     return redirect(url_for('home'))
 
 
 if __name__ == '__main__':
