@@ -6,17 +6,23 @@ from flask import Flask, request, render_template, jsonify, send_file, make_resp
 import json
 from kidslinkedConverter import kidslinkedConverter as kc
 import os
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from Models import Companies, db
 
 
 app = Flask(__name__)
-app.secret_key = 'kidslinked'
-app.config.update(
-    # SESSION_COOKIE_SECURE=True, # Commented out for use on Heroku becuase free apps are not HTTPS and session cookie cannot be set as secure
-    SESSION_COOKIE_HTTPONLY=True,
-    SESSION_COOKIE_SAMESITE='Lax'
-)
-print('path {}'.format(app.instance_path))
-app.config['DL_DIRECTORY'] = os.path.join(app.instance_path, 'generated')
+
+# app.secret_key = 'kidslinked'
+# app.config.update(
+#     # SESSION_COOKIE_SECURE=True, # Commented out for use on Heroku becuase free apps are not HTTPS and session cookie cannot be set as secure
+#     SESSION_COOKIE_HTTPONLY=True,
+#     SESSION_COOKIE_SAMESITE='Lax'
+# )
+# print('path {}'.format(app.instance_path))
+# app.config['DL_DIRECTORY'] = os.path.join(app.instance_path, 'generated')
+
+print(os.environ["APP_SETTINGS"])
 
 
 @app.route('/home', methods=['POST', 'GET'])
