@@ -13,12 +13,18 @@ def generate_id():
 
 
 def add_to_db(user_id, company_obj): # takes str user_id, list of objs
-    pass
+    for obj in company_obj:
+        obj.user_id = user_id
+        db.session.add(obj)
 
 
-def delete_from_db(user_id, company_obj): # takes str user_id, list of keys to query for deletion
+def delete_from_db(user_id, keys): # takes str user_id, list of keys to query for deletion
+    # objects = []
+    # for key in keys:
+    #     objects.append(Companies.query.filter_by(email))
     pass
 
 
 def fetch_from_db(user_id): # return list of companies belonging to passed user_id
-    pass
+    objects = Companies.query.filter_by(user_id=user_id).all()
+    return objects
