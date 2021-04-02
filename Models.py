@@ -12,9 +12,20 @@ class Companies(db.Model):
     __tablename__ = 'companies'
 
     name = db.Column(db.String, nullable=False)
-    contacts = db.Column(db.JSON, nullable=False) # these are JSON so we can use lists
-    emails = db.Column(db.JSON, nullable=False)
-    phones = db.Column(db.JSON, nullable=False)
-    address = db.Column(db.String, nullable=False)
-    user_id = db.Column(db.String, nullable=False)
+    address = db.Column(db.String, nullable=True)
+
     date_created = db.Column(db.DateTime(timezone=True), nullable=False, default=func.now())
+    user_id = db.Column(db.String, nullable=False)
+    company_id = db.Column(db.String, nullable=False)
+    details = db.relationship('Details', backref='companies', lazy=False)
+
+
+class Details(db.Model):
+    __tablename__ = 'details'
+
+    id = db.Column(db.Integer, primary_key=True) # SQLAlchemy should take care of populating this column automatically
+    company_id = db.Column(db.String, db.ForeignKey('companies.company_id'), nullable=False)
+    
+    contacts = db.Column(db.String, nullable=True)
+    emails = db.Column(db.String, nullable=True)
+    phones = db.Column(db.String, nullable=True)
