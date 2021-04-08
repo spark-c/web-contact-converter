@@ -1,6 +1,5 @@
 # Flask code for the module "web-contact-converter", a web app used to generate spreadsheets from contact information
-# Collin Sparks, Feb 2021
-# cklsparks@gmail.com, https://github.com/spark-c/web-contact-converter
+# Collin Sparks, cklsparks@gmail.com, https://github.com/spark-c/web-contact-converter
 
 from flask import Flask, request, render_template, jsonify, send_file, make_response, session, redirect, url_for, abort
 from flask_sqlalchemy import SQLAlchemy
