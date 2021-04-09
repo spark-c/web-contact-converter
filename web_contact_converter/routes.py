@@ -15,6 +15,7 @@ def home():
         session['user_id'] = mdb.generate_id()
 
     companies_in_session = mdb.fetch_from_db(session['user_id']) # if user_id in session, returns their companies. otherwise, return []
+
     return render_template('index.html', total_companies=len(companies_in_session))
 
 
@@ -30,7 +31,7 @@ def py_compile(): # takes request containing new companies and processes/stores 
     req = request.get_json()
     for company in kc.compile_for_remote(req): # for loop, otherwise we get nested lists which complicates json
         new_companies.append(company)
-        mdb.add_to_db(session['user_id'], company)
+    mdb.add_to_db(session['user_id'], new_companies)
 
     companies_in_session = mdb.fetch_from_db(session['user_id']) # update master list to include new companies
 

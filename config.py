@@ -5,17 +5,18 @@
 class Config():
     DEBUG = False
     # SESSION_COOKIE_SECURE=True, # free Heroku apps are not HTTPS and session cookie cannot be set as secure
-    SESSION_COOKIE_HTTPONLY=True,
-    SESSION_COOKIE_SAMESITE='Lax'
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = 'Lax'
     SECRET_KEY = 'kidslinked'
     DL_DIRECTORY = './web_contact_converter/output'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
-class DevelopmentConfig():
+class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://postgres:admin@localhost:5432/web-contact-converter-dev'
 
 
-class ProductionConfig():
+class ProductionConfig(Config):
     pass
 
 

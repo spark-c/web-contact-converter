@@ -6,12 +6,14 @@ import secrets
 
 from web_contact_converter import db
 from web_contact_converter.models.Models import Companies, Details
-from web_contact_converter.kidslinkedConverter import Company
+from web_contact_converter.kidslinkedConverter import Company as kc
 
 
 tmp = db.session.query(Companies).all() # These two lines create a set of all ids in use, to prevent creating duplicates
-used_ids = set([Companies.company_id for i in tmp] + [Companies.user_id for i in tmp])
-print('USED_IDS: {}'.format(used_ids))
+used_ids = set([i.company_id for i in tmp] + [j.user_id for j in tmp])
+print("USED_IDS: ")
+for id in used_ids:
+    print(id)
 
 
 def generate_id():
@@ -22,30 +24,30 @@ def generate_id():
 
 
 def build(db_result): # builds a Company object from a db query result
-    newObj = Company(db_result.name)
+    newObj = kc.Company(db_result.name)
     for detail in db_result.details: # should be iterating through relevant detail rows in Details table
         newObj.add(detail.type, detail.data)
 
     return newObj
 
 
-def add_to_db(user_id, company_obj): # takes str user_id, list of objs
-    for obj in company_obj:
+def add_to_db(user_id, company_dicts): # takes str user_id, list of dicts
+    for dct in company_dicts:
         newCompanyID = generate_id()
 
-        newCompany = Companies(name=obj.name, user_id=user_id, company_id=newCompanyID)
+        newCompany = Companies(name=dct["name"][0], user_id=user_id, company_id=newCompanyID)
         db.session.add(newCompany)
 
-        for info in obj.contacts:
+        for info in dct["contacts"]:
             newDetail = Details(company_id=newCompanyID, type='contact', data=info)
             db.session.add(newDetail)
-        for info in obj.emails:
+        for info in dct["emails"]:
             newDetail = Details(company_id=newCompanyID, type='email', data=info)
             db.session.add(newDetail)
-        for info in obj.phones:
+        for info in dct["phones"]:
             newDetail = Details(company_id=newCompanyID, type='phone', data=info)
             db.session.add(newDetail)
-        for info in obj.address:
+        for info in dct["address"]:
             newDetail = Details(company_id=newCompanyID, type='address', data=info)
             db.session.add(newDetail)
 
