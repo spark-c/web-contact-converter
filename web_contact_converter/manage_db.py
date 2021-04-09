@@ -1,12 +1,12 @@
 # Contains functions used to liase between web-contact-converter backend and database.
 # Collin Sparks, cklsparks@gmail.com, https://github.com/spark-c/web-contact-kidslinkedConverter
 
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import selectinload
 import secrets
 
-from Models import Companies, Details, db
-from kidslinkedConverter import Company
+from web_contact_converter import db
+from web_contact_converter.models.Models import Companies, Details
+from web_contact_converter.kidslinkedConverter import Company
 
 
 tmp = db.session.query(Companies).all() # These two lines create a set of all ids in use, to prevent creating duplicates
@@ -62,7 +62,7 @@ def delete_from_db(user_id, keys): # takes str user_id, list of keys to query fo
 def fetch_from_db(user_id): # return list of company objs belonging to passed user_id
     objects = []
     results = db.session.query(Companies).\
-        options(selectinload(Companies.Details)).\
+        options(selectinload(Companies.details)).\
         filter_by(user_id=user_id).\
         all()
 

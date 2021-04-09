@@ -3,9 +3,8 @@
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
+from web_contact_converter import db
 
-
-db = SQLAlchemy()
 
 class Companies(db.Model):
     __tablename__ = 'companies'
@@ -14,8 +13,8 @@ class Companies(db.Model):
 
     date_created = db.Column(db.DateTime(timezone=True), nullable=False, default=func.now())
     user_id = db.Column(db.String, nullable=False)
-    company_id = db.Column(db.String, nullable=False)
-    details = db.relationship('Details', backref='companies', lazy=False)
+    company_id = db.Column(db.String, primary_key=True, nullable=False)
+    details = db.relationship('Details', backref='companies')
 
 
 class Details(db.Model):
