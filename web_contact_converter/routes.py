@@ -1,5 +1,6 @@
 
 from flask import request, render_template, jsonify, send_file, make_response, session, redirect, url_for, abort
+from time import sleep
 import json
 import os
 
@@ -14,14 +15,14 @@ def home():
     if not session.get('user_id'):
         session['user_id'] = mdb.generate_id()
 
-    companies_in_session = mdb.fetch_from_db(session['user_id']) # if user_id in session, returns their companies. otherwise, return []
-
-    return render_template('index.html', total_companies=len(companies_in_session))
+    return render_template('index.html', total_companies=mdb.fetch_from_db(session['user_id'], count=True))
 
 
 @app.route('/compile_from_session', methods=['POST', 'GET'])
 def compile_from_session(): # sends the companies currently in the session
-    response = make_response(jsonify(companies_in_session), 200)
+    companies_in_session = mdb.fetch_from_db(session['user_id'])
+    response = make_response(jsonify([x.__dict__ for x in companies_in_session]), 200) # list comprehension b/c objects not JSON serializable
+
     return response
 
 
@@ -41,6 +42,7 @@ def py_compile(): # takes request containing new companies and processes/stores 
 
 @app.route('/py_generate', methods=['POST', 'GET'])
 def py_generate(): # generates spreadsheet from data in session. spreadsheet is created in ./instance directory and sent to the user
+    companies_in_session = mdb.fetch_from_db(session['user_id'])
     wb = kc.generate_wb(companies_in_session)
     filepath = app.config['DL_DIRECTORY'] + 'output.xlsx'
     with open(filepath, 'wb') as temp:

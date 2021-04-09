@@ -11,9 +11,6 @@ from web_contact_converter.kidslinkedConverter import Company as kc
 
 tmp = db.session.query(Companies).all() # These two lines create a set of all ids in use, to prevent creating duplicates
 used_ids = set([i.company_id for i in tmp] + [j.user_id for j in tmp])
-print("USED_IDS: ")
-for id in used_ids:
-    print(id)
 
 
 def generate_id():
@@ -54,21 +51,28 @@ def add_to_db(user_id, company_dicts): # takes str user_id, list of dicts
         db.session.commit()
 
 
-def delete_from_db(user_id, keys): # takes str user_id, list of keys to query for deletion
+def delete_from_db(user_id, keys=None): # takes str user_id, list of keys to query for deletion
     # objects = []
     # for key in keys:
     #     objects.append(Companies.query.filter_by(email))
     pass
 
 
-def fetch_from_db(user_id): # return list of company objs belonging to passed user_id
-    objects = []
-    results = db.session.query(Companies).\
-        options(selectinload(Companies.details)).\
-        filter_by(user_id=user_id).\
-        all()
+def fetch_from_db(user_id, count=False): # return list of company objs belonging to passed user_id
+                                        # Or optionally, just the number of objs belonging to user
+    if count == False:
+        objects = []
 
-    for company in results:
-        objects.append(build(company))
+        results = db.session.query(Companies).\
+            options(selectinload(Companies.details)).\
+            filter_by(user_id=user_id).\
+            all()
 
-    return objects
+        for company in results:
+            objects.append(build(company))
+
+        return objects
+
+    elif count == True:
+        n = db.session.query(Companies).filter_by(user_id=user_id).count()
+        return n
