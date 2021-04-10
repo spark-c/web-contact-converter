@@ -43,7 +43,7 @@ def py_compile(): # takes request containing new companies and processes/stores 
 @app.route('/py_generate', methods=['POST', 'GET'])
 def py_generate(): # generates spreadsheet from data in session. spreadsheet is created in ./instance directory and sent to the user
     companies_in_session = mdb.fetch_from_db(session['user_id'])
-    wb = kc.generate_wb(companies_in_session)
+    wb = kc.generate_wb([obj.__dict__ for obj in companies_in_session]) # this function expects a list
     filepath = app.config['DL_DIRECTORY'] + 'output.xlsx'
     with open(filepath, 'wb') as temp:
         wb.save(temp)
