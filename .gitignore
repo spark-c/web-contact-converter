@@ -3,3 +3,4 @@ startatom.bat
 instance/*
 runFlask.bat
 __pycache__/
+web_contact_converter/output/*
