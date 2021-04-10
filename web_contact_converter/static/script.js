@@ -1,5 +1,6 @@
 // Main js for the frontend of "web-contact-converter"
 // Collin Sparks, Feb 2021
+// cklsparks@gmail.com, https://github.com/spark-c/web-contact-converter
 
 function replace_brs(with_tags) { // a contenteditable div uses <br> tags instead of \n, so we need to replace those
   const regex = /<br>/;
@@ -9,9 +10,8 @@ function replace_brs(with_tags) { // a contenteditable div uses <br> tags instea
 
 
 function send_request(destination) {
-  if (destination === 'py_compile') { // only takes from textarea if called from button
+  if (destination === 'py_compile') { // only takes data from textarea if called from compile button
     let target = document.getElementById('textarea');
-    // console.log(target.value);
     var sendthis = {
       message: replace_brs(target.value)
     }
@@ -20,10 +20,9 @@ function send_request(destination) {
       message: 'dummy-value'
     }
   }
-  set_checkboxes({nodes_list: undefined, toggle: undefined, checked: false}) // unchecks all checkboxes. we will check all of the new ones.
+  set_checkboxes({nodes_list: undefined, toggle: undefined, checked: false}) // unchecks all checkboxes. we will check all of the new ones later.
 
-  // console.log(destination)
-  fetch(`${window.origin}/${destination}`, { // sending the request
+  fetch(`${window.origin}/${destination}`, {
     method: "POST",
     credentials: "include",
     body: JSON.stringify(sendthis),
@@ -39,12 +38,10 @@ function send_request(destination) {
     }
     return response.json()
   })
-  .then(function(data) { // processes the
-    // console.log(`data: ${data}`)
+  .then(function(data) { // builds table elements from the data in response
     let table = document.getElementById('select-form')
 
     for (let company of data) { // creates table rows and appends them to the table
-      // console.log(`company: ${company.name}`)
       let tmp = create_row(company) // separated from next line so that we can still access the elemnent in the line after
       table.appendChild(tmp)
       console.log('appending')
@@ -71,7 +68,7 @@ function create_row(company) { // one company's worth of information
   let newDiv = document.createElement('div')
   newDiv.classList.add('table-row')
 
-  field_types = [ // in the order that they appear left-to-right on the page
+  let field_types = [ // in the order that they appear left-to-right on the page
     'name',
     'contacts',
     'emails',
@@ -88,7 +85,6 @@ function create_row(company) { // one company's worth of information
 
 
 function create_fields(type, data='') { // takes a dict of contact data and makes them into table fields/cells
-  // console.log(`createfields; type: ${type}, data: ${data}`)
   if (type === 'select') { // contains the select checkbox
     let selectField = document.createElement('div')
     selectField.classList.add('table-field', 'checkbox')
@@ -99,9 +95,9 @@ function create_fields(type, data='') { // takes a dict of contact data and make
     return selectField;
 
   } else if (type === 'spacer') { // used for spacing on the page, empty div in the column of the delete-selected button
-    let spacerfield = document.createElement('div')
-    spacerfield.classList.add(['table-field'])
-    return spacerfield;
+    let spacerField = document.createElement('div')
+    spacerField.classList.add(['table-field'])
+    return spacerField;
 
   } else { // uses the data to label and fill the table cell
     let field = document.createElement('div')
@@ -113,25 +109,21 @@ function create_fields(type, data='') { // takes a dict of contact data and make
 };
 
 
-function set_checkboxes(params) {// node_list=false, toggle=false, checked=undefined) {  see below
-  // if no list of nodes, then function selects all nodes on the document.
-  // toggle = optionally toggle checked/unchecked
-  // checked = set all nodes to checked(true) or unchecked(false)
-  // console.log('checkbox')
-  // console.log(`checked is ${params.checked}`)
-  // console.log(params.toggle)
+function set_checkboxes(params) {
+  // node_list: (array) if no list of nodes passed, then function selects all nodes on the document.
+  // toggle = (bool) optionally toggle checked/unchecked
+  // checked = (bool) set all nodes to checked(true) or unchecked(false)
+
   if (typeof(params.node_list) === typeof(['array'])) {
     var nodes = params.node_list
   } else {
     var nodes = document.querySelectorAll("input[type='checkbox']")
   }
-  // console.log(nodes)
 
   if (params.toggle) {
     let i = 0
     for (let node of nodes) {
       if (node.checked === false) { // if any node is unchecked, then i > 0
-        // console.log('unchecked')
         i = i + 1
       }
     }
@@ -149,7 +141,6 @@ function set_checkboxes(params) {// node_list=false, toggle=false, checked=undef
 
   if (!(params.checked === undefined)) { // if an argument was passed (bool)
     for (let node of nodes) {
-      // console.log(node)
       node.checked = params.checked // true or false!
     }
   }
@@ -163,13 +154,6 @@ function select_toggle() { // lazy solution to select-all button's onclick
 
 
 function generate() {
-  // let D = new Date()
-  // var doc_title = window.prompt('Please enter the spreadsheet title:', `Conversion ${D.getMonth() + 1}-${D.getDate()}-${D.getFullYear()}`) // placeholder format (January 1 2021))
-  // if (doc_title === null) {
-  //   alert('Generation cancelled.')
-  //   return
-  // }
-  // console.log('sending request')
   fetch(`${window.origin}/py_generate`, { // sending the request
     method: "POST",
     credentials: "include",
@@ -190,19 +174,9 @@ function generate() {
 
 window.onload = (event) => { // appends existing data to table on page load
   send_request('compile_from_session')
-  // console.log('should have pinned')
 }
 
 var compileElement = document.querySelector('#compile-button') // adds listener for compile button
 compileElement.addEventListener('click', function() {
   send_request('py_compile')
 })
-// console.log(compileElement)
-
-// var deleteallElement = document.querySelector('#delete-all')
-// deleteallElement.addEventListener('click', function() {
-//   send_request('delete_all').then( () => {location.reload(true)})
-//   // location.reload()
-// })
-
-  // for piece of info in response[company], make an appropriate div

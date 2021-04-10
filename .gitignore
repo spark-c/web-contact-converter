@@ -1,4 +1,5 @@
+venv/
 startatom.bat
-instance/generated/*
+instance/*
 runFlask.bat
 __pycache__/
