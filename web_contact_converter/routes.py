@@ -63,11 +63,14 @@ def py_generate(): # generates spreadsheet from data in session. spreadsheet is 
 @app.route('/delete_selected', methods=['POST','GET'])
 def delete_selected():
     delete_keys = list() # this will be our key for which companies to delete (using emails, since those are unique)
-    for entry in request.form: # each entry is an email
-        delete_keys.append(entry)
+    if len(request.form) > 1:
+        key_dict = request.form.to_dict(flat=True)
+        key_dict.pop('delete')
+        delete_keys = key_dict.keys()
+        print('delete keys:', delete_keys)
 
-    mdb.delete_from_db(session['user_id'], delete_keys)
-    companies_in_session = mdb.fetch_from_db(session['user_id'])
+        mdb.delete_from_db(session['user_id'], delete_keys)
+        companies_in_session = mdb.fetch_from_db(session['user_id'])
 
     return redirect(url_for('home'))
 

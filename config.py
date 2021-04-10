@@ -14,7 +14,7 @@ class Config():
 
 class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://postgres:admin@localhost:5432/web-contact-converter-dev'
-
+    DEBUG = True
 
 class ProductionConfig(Config):
     pass

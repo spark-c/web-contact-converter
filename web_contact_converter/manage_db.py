@@ -52,10 +52,23 @@ def add_to_db(user_id, company_dicts): # takes str user_id, list of dicts
 
 
 def delete_from_db(user_id, keys=None): # takes str user_id, list of keys to query for deletion
-    # objects = []
-    # for key in keys:
-    #     objects.append(Companies.query.filter_by(email))
-    pass
+    if keys == None:
+        delete_these = db.session.query(Companies).filter_by(user_id=user_id).all()
+
+    else: # if a list of keys (emails) were passed
+        delete_these = []
+        for key in keys:
+            del_id = db.session.query(Details.company_id).filter_by(data=key).first()
+            del_row = db.session.query(Companies).filter_by(company_id=del_id).first()
+            delete_these.append(del_row)
+
+    for row in delete_these:
+        try:
+            db.session.delete(row)
+        except:
+            continue
+
+    db.session.commit()
 
 
 def fetch_from_db(user_id, count=False): # return list of company objs belonging to passed user_id

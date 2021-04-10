@@ -14,7 +14,7 @@ class Companies(db.Model):
     date_created = db.Column(db.DateTime(timezone=True), nullable=False, default=func.now())
     user_id = db.Column(db.String, nullable=False)
     company_id = db.Column(db.String, primary_key=True, nullable=False)
-    details = db.relationship('Details', backref='companies')
+    details = db.relationship('Details', backref='companies', cascade='all, delete-orphan')
 
 
 class Details(db.Model):
