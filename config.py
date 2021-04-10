@@ -10,7 +10,6 @@ class Config():
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = 'Lax'
     SECRET_KEY = 'kidslinked'
-    DL_DIRECTORY = './web_contact_converter/output'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 

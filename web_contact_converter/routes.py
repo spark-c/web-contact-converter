@@ -44,12 +44,12 @@ def py_compile(): # takes request containing new companies and processes/stores 
 def py_generate(): # generates spreadsheet from data in session. spreadsheet is created in ./instance directory and sent to the user
     companies_in_session = mdb.fetch_from_db(session['user_id'])
     wb = kc.generate_wb([obj.__dict__ for obj in companies_in_session]) # this function expects a list
-    filepath = app.config['DL_DIRECTORY'] + 'output.xlsx'
+    filepath = os.path.join(os.path.dirname(app.instance_path), 'web_contact_converter\\output\\output.xlsx')
     with open(filepath, 'wb') as temp:
         wb.save(temp)
         temp.seek(0)
 
-    response = send_file(app.config['DL_DIRECTORY'] + 'output.xlsx',
+    response = send_file(filepath,
     mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     attachment_filename='output.xlsx',
     as_attachment=True
