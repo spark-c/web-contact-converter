@@ -1,6 +1,8 @@
 # used to set config / environment vars for web-contact-kidslinkedConverter
 # Collin Sparks, cklsparks@gmail.com, https://github.com/spark-c/web-contact-converter
 
+import os
+
 
 class Config():
     DEBUG = False
@@ -17,7 +19,5 @@ class DevelopmentConfig(Config):
     DEBUG = True
 
 class ProductionConfig(Config):
-    pass
+    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
-
-print('config set')
