@@ -1,6 +1,3 @@
-[submodule "kidslinkedConverter"]
-	path = ./web_contact_converter/kidslinkedConverter
-	url = https://github.com/spark-c/kidslinkedConverter
 [submodule "web_contact_converter/kidslinkedConverter"]
 	path = web_contact_converter/kidslinkedConverter
 	url = https://github.com/spark-c/kidslinkedConverter
