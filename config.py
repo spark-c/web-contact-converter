@@ -18,10 +18,5 @@ class DevelopmentConfig(Config):
     DEBUG = True
 
 class ProductionConfig(Config):
-<<<<<<< HEAD
-    # SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') # This doesn't seem to work. SQLAlchemy wants "postgresql" prefix but heroku forces it to be "postgres".
-    SQLALCHEMY_DATABASE_URI = 'postgresql://iasxannxrruajn:b53405936ee738d40f581a11f410a48765bce03781bb67cdb33682caf8b6b41e@ec2-18-233-83-165.compute-1.amazonaws.com:5432/dampp0gl7t506a'
-=======
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL').replace('postgres', 'postgresql') # Heroku uses 'postgres' prefix, but SQLAlchemy requires 'postgresql'
->>>>>>> development
 

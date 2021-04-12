@@ -3,8 +3,4 @@ startatom.bat
 instance/*
 runFlask.bat
 __pycache__/
-<<<<<<< HEAD
-web_contact_converter/output/*
-=======
 *.xlsx
->>>>>>> development
