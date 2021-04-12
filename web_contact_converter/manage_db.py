@@ -6,7 +6,7 @@ import secrets
 
 from web_contact_converter import db
 from web_contact_converter.models.Models import Companies, Details
-from web_contact_converter.kidslinkedConverter import Company as kc
+from kidslinkedConverter import Company as kc
 
 
 tmp = db.session.query(Companies).all() # These two lines create a set of all ids in use, to prevent creating duplicates
