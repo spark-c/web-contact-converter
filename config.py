@@ -18,5 +18,6 @@ class DevelopmentConfig(Config):
     DEBUG = True
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL').replace('postgres', 'postgresql') # Heroku uses 'postgres' prefix, but SQLAlchemy requires 'postgresql'
+    if os.environ.get('DATABASE_URL'):
+        SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL').replace('postgres', 'postgresql') # Heroku uses 'postgres' prefix, but SQLAlchemy requires 'postgresql'
 
