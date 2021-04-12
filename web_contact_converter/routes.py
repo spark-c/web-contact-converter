@@ -5,7 +5,7 @@ import json
 import os
 
 from web_contact_converter import app
-from web_contact_converter.kidslinkedConverter import kidslinkedConverter as kc
+from kidslinkedConverter import kidslinkedConverter as kc
 import web_contact_converter.manage_db as mdb
 
 
