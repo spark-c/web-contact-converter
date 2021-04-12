@@ -58,8 +58,9 @@ def delete_from_db(user_id, keys=None): # takes str user_id, list of keys to que
     else: # if a list of keys (emails) were passed
         delete_these = []
         for key in keys:
-            del_id = db.session.query(Details.company_id).filter_by(data=key).first()
-            del_row = db.session.query(Companies).filter_by(company_id=del_id).first()
+            del_id = db.session.query(Details.company_id).filter_by(data=key).first() # psycopg2 sees this as a Row, and throws error on next line (on heroku)
+            print('***DEL_ID[0] IS: ', del_id[0], '***')
+            del_row = db.session.query(Companies).filter_by(company_id=del_id[0]).first()
             delete_these.append(del_row)
 
     for row in delete_these:
