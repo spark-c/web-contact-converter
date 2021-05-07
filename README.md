@@ -4,6 +4,8 @@ created Feb 2021
 
 This project is live [here](web-contact-converter.herokuapp.com)!
 
+See the project's [wiki](https://github.com/spark-c/web-contact-converter/wiki) for a more detailed look at the app's data pipeline.
+
 A local company had a frequent task of manually transferring sales leads/contact information from a text document into a spreadsheet -- which took hours at a time. This app automates the process.
 
 It requires the data input to be formatted as follows:
