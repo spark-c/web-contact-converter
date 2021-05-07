@@ -2,7 +2,7 @@
 Written using Python/Flask with a html/css/js frontend.
 created Feb 2021
 
-This project is live [here](web-contact-converter.herokuapp.com)!
+This project is live [here](web-contact-converter.herokuapp.com)! (It is on a free Heroku dyno, so it may take a few seconds to load if the app was sleeping.)
 
 See the project's [wiki](https://github.com/spark-c/web-contact-converter/wiki) for a more detailed look at the app's data pipeline.
 
@@ -33,6 +33,5 @@ help@anothercorp.net
 ...
 ```
 
-This app is currently deployed at web-contact-converter.herokuapp.com
 
-(It is on a free dyno, so it may take a few seconds to load if the app was sleeping.)
+
